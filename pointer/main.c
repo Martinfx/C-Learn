@@ -1,9 +1,12 @@
 #include <stdio.h>
 
-
+/// Basic pointer sample
 int main(int argc, char **argv)
 {
+    /// int variables
     int num, num2 = 0;
+
+    /// Pointer variables
     int* numPtr;
     int* numPtr2;
 
