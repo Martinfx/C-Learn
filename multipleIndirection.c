@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#define size_array(x) (int)( sizeof(x) / sizeof(x[0]) )
+
 unsigned int data[3];			// some integers
 
 int main(int argc, char **argv) {
@@ -9,11 +11,11 @@ int main(int argc, char **argv) {
     printf ("multiple indirection example\n");
 
     // initialize our integer array
-    for (unsigned int i = 0; i < sizeof(data) / sizeof (data[0]); i++)
+    for (unsigned int i = 0; i < size_array(data); i++)
     {
         data[i] = i;
     }
-    for (unsigned int i = 0; i < sizeof(data) / sizeof (data[0]); i++)
+    for (unsigned int i = 0; i < size_array(data); i++)
     {
         printf("%d\n", data[i]);
     }
@@ -25,7 +27,7 @@ int main(int argc, char **argv) {
     pi = data;								// set the pointer to an integer  to the start of the data array
     ppi = &pi;								// and set the pointer to a pointer to pi itself
 
-    for (unsigned int i = 0; i < sizeof(data) / sizeof (data[0]); i++) {
+    for (unsigned int i = 0; i < size_array(data); i++) {
         printf("array address is %p\n", data);
         printf("item pointed to by pi is %d\n", *pi);
         printf("item pointed to by ppi is %p\n", *ppi);
