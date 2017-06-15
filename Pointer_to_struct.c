@@ -18,6 +18,12 @@ int main()
 
     p = (test_struct*)calloc(4, sizeof (test_struct));
 
+    if(p == NULL)
+    {
+        printf("Allocation failed, pointer is NULL!");
+        exit(EXIT_FAILURE);
+    }
+
     for(int i = 0; i < 4; i++)
     {
         p[i].x = i;
