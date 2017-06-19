@@ -12,11 +12,13 @@ typedef struct
 
 int main()
 {
+    const int size_alloc = 4;
+
     test_struct *p = NULL, *q = NULL;
 
     printf("Size of test_struct: %lu\n", sizeof(test_struct));
 
-    p = (test_struct*)calloc(4, sizeof (test_struct));
+    p = (test_struct*)calloc(size_alloc, sizeof (test_struct));
 
     if(p == NULL)
     {
@@ -24,7 +26,7 @@ int main()
         exit(EXIT_FAILURE);
     }
 
-    for(int i = 0; i < 4; i++)
+    for(int i = 0; i < size_alloc; i++)
     {
         p[i].x = i;
         p[i].y = i * 20;
