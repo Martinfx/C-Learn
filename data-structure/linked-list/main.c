@@ -12,7 +12,7 @@ typedef struct linked_list
     struct linked_list *next;
 } linked_list_t;
 
-linked_list_t* create(int n)
+linked_list_t* create_linked_list(int n)
 {
     linked_list_t *head = NULL;
     linked_list_t *temp = NULL;
@@ -22,6 +22,11 @@ linked_list_t* create(int n)
         for(int i = 0; i < n; i++)
         {
             temp = malloc(sizeof(linked_list_t));
+            if(temp == NULL)
+            {
+                return NULL;
+            }
+
             temp->node_data = i;
             temp->next = head;
             head = temp;
@@ -43,25 +48,54 @@ void push_to_end(linked_list_t *node)
         temp = temp->next;
     }
 
-    //printf("temp->next : %d\n ", temp->node_data);
-
     temp->next = malloc(sizeof(linked_list_t));
     temp->node_data = temp->node_data + 1;
     //printf("List item: current is %p", temp->next->node_data);
     temp->next->next = NULL;
 }
 
-
-// TODO: push_to_begin, pop, delete, maybe search,
-
-/*
-void pop(linked_list_t *node)
+void push_to_begin(linked_list_t **node)
 {
-
+    linked_list_t *temp;
+    temp = malloc(sizeof(linked_list_t));
+    temp->node_data = temp->node_data + 1;
+    temp->next = *node;
+    *node = temp;
 }
-*/
 
-void print(linked_list_t *node)
+int pop(linked_list_t **node)
+{
+    int return_val;
+    linked_list_t *temp = NULL;
+
+    if(*node == NULL)
+    {
+        return -1;
+    }
+
+    temp = (*node)->next;
+    return_val = (*node)->node_data;
+    free(*node);
+    *node = temp;
+
+    return return_val;
+}
+
+void remove_list(linked_list_t *node)
+{
+    linked_list_t *temp = node;
+    linked_list_t *next = node;
+
+    while(temp)
+    {
+        next = temp->next;
+        free(temp);
+        temp = next;
+    }
+}
+
+
+void print_list(linked_list_t *node)
 {
     linked_list_t *temp = node;
 
@@ -75,15 +109,22 @@ void print(linked_list_t *node)
 int main()
 {
     linked_list_t *list;
-    list = create(5);
-    print(list);
+    list = create_linked_list(5);
+    print_list(list);
 
     push_to_end(list);
-    //push_to_end(list);
-    //push_to_end(list);
-    //push_to_end(list);
+    push_to_end(list);
+    print_list(list);
 
-    print(list);
+    push_to_begin(&list);
+    push_to_begin(&list);
+    print_list(list);
+
+    pop(&list);
+    pop(&list);
+    print_list(list);
+
+    remove_list(list);
 
     return 0;
 }
