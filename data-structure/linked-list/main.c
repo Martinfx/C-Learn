@@ -24,6 +24,7 @@ linked_list_t* create_linked_list(int n)
             temp = malloc(sizeof(linked_list_t));
             if(temp == NULL)
             {
+                printf("Allocation memory failed!");
                 return NULL;
             }
 
