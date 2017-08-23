@@ -1,2 +1,3 @@
-###   Language C learn with advance work with pointers.
-
+### Learing language C 
+#### Advance work with pointers
+#### Data structures in language C
