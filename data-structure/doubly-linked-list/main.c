@@ -8,20 +8,20 @@
 
 typedef struct d_linked_list
 {
-    int node_data;
+    size_t node_data;
     struct d_linked_list *next;
     struct d_linked_list *prev;
 
 } d_linked_list_t;
 
-d_linked_list_t* create_list(int n)
+d_linked_list_t* create_list(size_t n)
 {
     d_linked_list_t *head = NULL;
     d_linked_list_t *temp = NULL;
 
     if(n > 0)
     {
-        for(int i = 0; i < n; i++)
+        for(size_t i = 0; i < n; i++)
         {
             temp = (d_linked_list_t*)malloc(sizeof(d_linked_list_t));
             if(temp == NULL)
@@ -46,24 +46,58 @@ d_linked_list_t* create_list(int n)
     return head;
 }
 
-void print_list(d_linked_list_t *head)
+void print_forward_list(d_linked_list_t *node)
 {
-    d_linked_list_t *temp = head;
+    d_linked_list_t *temp = node;
 
     while (temp != NULL)
     {
-        printf("list item : current is %p; next is %p; prev is %p;\n", (void*)temp, (void*)temp->next, (void*)temp->prev);
+        printf("List forward item : current is %p; next is %p; prev is %p;\n",
+               (void*)temp,
+               (void*)temp->next,
+               (void*)temp->prev);
+
         temp = temp->next;
     }
 }
 
+void print_backward_list(d_linked_list_t *node)
+{
+    d_linked_list_t *temp = node;
+
+    while (temp != NULL)
+    {
+        printf("List backward item : current is %p; next is %p; prev is %p;\n",
+               (void*)temp,
+               (void*)temp->next,
+               (void*)temp->prev);
+
+        temp = temp->prev;
+    }
+}
+
+void remove_list(d_linked_list_t *node)
+{
+    /*d_linked_list_t *next = node;
+    d_linked_list_t *prev = NULL;
+
+    while(next)
+    {
+        prev = next->prev;
+        prev->next = next->next;
+        free(next);
+        next = prev;
+    }*/
+}
+
 int main()
 {
-    //printf("xxxxxxxxxxxxxxxxxxxxxxx");
     d_linked_list_t *list = NULL;
     list = create_list(4);
 
-    print_list(list);
+    print_forward_list(list);
+    //print_backward_list(list);
+    //remove_list(list);
 
     return 0;
 }
