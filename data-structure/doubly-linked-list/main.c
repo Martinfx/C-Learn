@@ -3,7 +3,7 @@
 
 /*
  * Example for data structure double linked list.
- * Allows operations push, pop, remove, delete item.
+ * Allows operations push, pop, remove node.
  */
 
 typedef struct d_linked_list
@@ -14,7 +14,7 @@ typedef struct d_linked_list
 
 } d_linked_list_t;
 
-d_linked_list_t *create_node(size_t n)
+d_linked_list_t *create_node()
 {
     d_linked_list_t *head = NULL;
 
@@ -27,7 +27,7 @@ d_linked_list_t *create_node(size_t n)
 
     head->next = NULL;
     head->prev = NULL;
-    head->node_data = n;
+    head->node_data = 0;
 
     return head;
 }
@@ -37,35 +37,46 @@ d_linked_list_t* create_list(size_t n)
     d_linked_list_t *curr = NULL;
     d_linked_list_t *first = NULL;
 
-    for(size_t i = 0; i < n; i++)
+    if(n > 0)
     {
-        /*curr = create_node(i);
-        if(first == NULL)
+        for(size_t i = 0; i < n; i++)
         {
+            curr = create_node();
+            curr->next = first;
+            curr->prev = NULL;
+            curr->node_data = i;
+
+            if(first)
+            {
+                first->prev = curr;
+            }
+
             first = curr;
         }
+    }
+    return first;
+}
 
-        first->prev = curr;
-        curr->next = first;
-        first = curr;  */
-
-        curr = create_node(i);
-        curr->next = first;
-        curr->prev = NULL;
-        if(first)
-        {
-            first->prev = curr;
-        }
-
-        first = curr;
+int print_length_list(d_linked_list_t *head)
+{
+    int length = 0;
+    d_linked_list_t *curr = NULL;
+    for(curr = head; curr != NULL; curr = curr->next)
+    {
+        length = length + 1;
     }
 
-    return first;
+    return length;
 }
 
 void print_foward_list(d_linked_list_t *node)
 {
     d_linked_list_t *temp = node;
+
+    if(node == NULL)
+    {
+        printf("List is empty!\n");
+    }
 
     while (temp != NULL)
     {
@@ -78,21 +89,44 @@ void print_foward_list(d_linked_list_t *node)
     }
 }
 
+/*
 void print_backward_list(d_linked_list_t *node)
 {
     d_linked_list_t *temp = node;
 
     while (temp != NULL)
     {
-        printf("List item : current is %p; next is %p; prev is %p;\n",
+        printf("List backward item : current is %p; next is %p; prev is %p;\n",
                (void*)temp,
                (void*)temp->next,
                (void*)temp->prev);
 
         temp = temp->prev;
     }
-}
+}*/
 
+void push_to_end(d_linked_list_t *head)
+{
+    d_linked_list_t *temp = head;
+    d_linked_list_t *node = create_node();
+
+    if(head == NULL)
+    {
+        head = node;
+    }
+
+    while(temp->next != NULL)
+    {
+        //printf("while : %zu\n", temp->node_data);
+        temp->node_data = temp->node_data + 1;
+        temp = temp->next;
+    }
+
+    temp->next = node;
+    node->prev = temp;
+
+    //printf("List item: current is %zu \n", temp->next->node_data);
+}
 
 void remove_list(d_linked_list_t *node)
 {
@@ -104,27 +138,21 @@ void remove_list(d_linked_list_t *node)
         node = node->next;
         free(temp);
     }
-
-    /*d_linked_list_t *next = node;
-    d_linked_list_t *prev = NULL;
-
-    while(next)
-    {
-        prev->prev = next->prev;
-        prev->next = next->next;
-        free(next);
-        next = prev;
-    }*/
 }
 
 int main()
 {
-    d_linked_list_t *list = NULL;
-    list = create_list(4);
+    d_linked_list_t *head_list= NULL;
+    head_list = create_list(10);
 
-    print_foward_list(list);
-    //print_backward_list(list);
-    remove_list(list);
+    print_foward_list(head_list);
+    //print_backward_list(head_list);
+
+    push_to_end(head_list);
+
+    printf("Count of node in list : %d \n", print_length_list(head_list));
+
+    remove_list(head_list);
 
     return 0;
 }
