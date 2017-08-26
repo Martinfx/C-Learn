@@ -14,7 +14,6 @@ typedef struct d_linked_list
 
 } d_linked_list_t;
 
-
 d_linked_list_t *create_node(size_t n)
 {
     d_linked_list_t *head = NULL;
@@ -30,44 +29,48 @@ d_linked_list_t *create_node(size_t n)
     head->prev = NULL;
     head->node_data = n;
 
-    printf("Node created successfully \n");
-
     return head;
 }
 
 d_linked_list_t* create_list(size_t n)
 {
-    d_linked_list_t *head = NULL;
-    d_linked_list_t *last = NULL;
+    d_linked_list_t *curr = NULL;
+    d_linked_list_t *first = NULL;
 
     for(size_t i = 0; i < n; i++)
     {
-        head = (d_linked_list_t*)malloc(sizeof(d_linked_list_t));
-        if(head == NULL)
+        /*curr = create_node(i);
+        if(first == NULL)
         {
-            printf("Allocation memory failed!");
-            return NULL;
+            first = curr;
         }
 
-        head->prev = create_node(i);
-        head->next = NULL;
-        head->node_data = i;
+        first->prev = curr;
+        curr->next = first;
+        first = curr;  */
 
-        last->next = head;
-        last = head;
+        curr = create_node(i);
+        curr->next = first;
+        curr->prev = NULL;
+        if(first)
+        {
+            first->prev = curr;
+        }
+
+        first = curr;
     }
 
-    return last;
+    return first;
 }
 
 void print_foward_list(d_linked_list_t *node)
 {
     d_linked_list_t *temp = node;
 
-    if(node)
+    /*if(node)
     {
         printf("List is empty!\n");
-    }
+    }*/
 
     while (temp != NULL)
     {
@@ -97,10 +100,10 @@ void remove_list(d_linked_list_t *node)
 
 int main()
 {
-    d_linked_list_t *list = NULL;
-    list = create_list(4);
+    d_linked_list_t *head = NULL;
+    head = create_list(4);
 
-    print_foward_list(list);
+    print_foward_list(head);
 
     //remove_list(list);
 
