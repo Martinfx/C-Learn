@@ -80,7 +80,7 @@ void print_foward_list(d_linked_list_t *node)
 
     while (temp != NULL)
     {
-        printf("List item : current is %p; next is %p; prev is %p;\n",
+        printf("Forward list item : current is %p; next is %p; prev is %p;\n",
                (void*)temp,
                (void*)temp->next,
                (void*)temp->prev);
@@ -89,21 +89,32 @@ void print_foward_list(d_linked_list_t *node)
     }
 }
 
-/*
+
 void print_backward_list(d_linked_list_t *node)
 {
     d_linked_list_t *temp = node;
 
+    if(node == NULL)
+    {
+        printf("List is empty!\n");
+    }
+
+    // Go to for last node
+    while(temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+
     while (temp != NULL)
     {
-        printf("List backward item : current is %p; next is %p; prev is %p;\n",
+        printf("Backward list item : current is %p; next is %p; prev is %p;\n",
                (void*)temp,
                (void*)temp->next,
                (void*)temp->prev);
 
         temp = temp->prev;
     }
-}*/
+}
 
 void push_to_end(d_linked_list_t *head)
 {
@@ -146,7 +157,7 @@ int main()
     head_list = create_list(10);
 
     print_foward_list(head_list);
-    //print_backward_list(head_list);
+    print_backward_list(head_list);
 
     push_to_end(head_list);
 
