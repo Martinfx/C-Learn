@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 /*
- * Example for data structure double linked list.
+ * Example for data structure doubly linked list.
  * Allows operations push, pop, remove node.
  */
 
@@ -139,6 +139,15 @@ void push_to_end(d_linked_list_t *head)
     //printf("List item: current is %zu \n", temp->next->node_data);
 }
 
+void push_to_begin(d_linked_list_t **head)
+{
+    d_linked_list_t *node = create_node();
+    node->node_data = (*head)->node_data + 1;
+    node->next = (*head);
+    node->prev = NULL;
+    (*head) = node;
+}
+
 void remove_list(d_linked_list_t *node)
 {
     d_linked_list_t *temp = NULL;
@@ -149,6 +158,14 @@ void remove_list(d_linked_list_t *node)
         node = node->next;
         free(temp);
     }
+}
+
+void pop(d_linked_list_t **node)
+{
+    d_linked_list_t *temp = NULL;
+    temp = (*node)->next;
+    free((*node));
+    (*node) = temp;
 }
 
 int main()
@@ -163,7 +180,16 @@ int main()
 
     printf("Count of node in list : %d \n", print_length_list(head_list));
 
+    push_to_begin(&head_list);
+
+    printf("Count of node in list : %d \n", print_length_list(head_list));
+
+    pop(&head_list);
+
+    printf("Count of node in list : %d \n", print_length_list(head_list));
+
     remove_list(head_list);
+    //printf("Count of node in list : %d \n", print_length_list(head_list));
 
     return 0;
 }
