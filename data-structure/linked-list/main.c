@@ -95,7 +95,6 @@ void remove_list(linked_list_t *node)
     }
 }
 
-
 void print_list(linked_list_t *node)
 {
     linked_list_t *temp = node;
