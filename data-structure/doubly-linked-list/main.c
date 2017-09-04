@@ -3,7 +3,7 @@
 
 /*
  * Example for data structure doubly linked list.
- * Allows operations push, pop, remove node.
+ * Allows operations create node, list, push, pop, remove.
  */
 
 typedef struct d_linked_list
@@ -158,6 +158,8 @@ void remove_list(d_linked_list_t *node)
         node = node->next;
         free(temp);
     }
+
+    printf("List removed.\n");
 }
 
 void pop(d_linked_list_t **node)
@@ -177,19 +179,12 @@ int main()
     print_backward_list(head_list);
 
     push_to_end(head_list);
-
     printf("Count of node in list : %d \n", print_length_list(head_list));
-
     push_to_begin(&head_list);
-
     printf("Count of node in list : %d \n", print_length_list(head_list));
-
     pop(&head_list);
-
     printf("Count of node in list : %d \n", print_length_list(head_list));
-
     remove_list(head_list);
-    //printf("Count of node in list : %d \n", print_length_list(head_list));
 
     return 0;
 }
