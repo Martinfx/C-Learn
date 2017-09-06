@@ -11,38 +11,47 @@ typedef struct d_list
     size_t node_data;
     struct d_list *next;
     struct d_list *prev;
-} d_list_t;
+} node_t;
 
-typedef struct queue_header
+typedef struct queue
 {
-    struct queue_header *first;
-    struct queue_header *last;
-} queue_header_t;
+    struct queue *first;
+    struct queue *last;
+    int size;
+} queue_t;
 
-
-d_list_t* create_queue(int n)
+node_t *create_node()
 {
-    d_list_t *temp = NULL;
-
-    for(int i = 0; i < n; i++)
+    node_t *head = (node_t*)malloc(sizeof(node_t));
+    if(head == NULL)
     {
-        temp = (d_list_t)malloc(sizeof(d_list_t));
-        temp->node_data = i;
+        printf("Allocation memory failed!");
+        return NULL;
     }
+
+    head->next = NULL;
+    head->prev = NULL;
+    head->node_data++;
+    return head;
 }
 
-/*
-void enqueue(d_list_t *item)
+queue_t* create_queue()
 {
+    queue_t *temp = (queue_t*)malloc(sizeof(queue_t));
+    if(temp == NULL)
+    {
+        printf("Allocation memory failed!");
+        return NULL;
+    }
 
+    temp->first = NULL;
+    temp->last  = NULL;
+    //temp->size  = n;
+    return temp;
 }
 
-void dequeue()
-{
-
-}
-*/
 int main()
 {
-//    queue_header_t *queue = NULL;
+
+
 }
