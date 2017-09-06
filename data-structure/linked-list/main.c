@@ -10,18 +10,18 @@ typedef struct linked_list
 {
     int node_data;
     struct linked_list *next;
-} linked_list_t;
+} list_t;
 
-linked_list_t* create_linked_list(int n)
+list_t* create_linked_list(int n)
 {
-    linked_list_t *head = NULL;
-    linked_list_t *temp = NULL;
+    list_t *head = NULL;
+    list_t *temp = NULL;
 
     if(n > 0)
     {
         for(int i = 0; i < n; i++)
         {
-            temp = malloc(sizeof(linked_list_t));
+            temp = malloc(sizeof(list_t));
             if(temp == NULL)
             {
                 printf("Allocation memory failed!");
@@ -37,9 +37,9 @@ linked_list_t* create_linked_list(int n)
     return head;
 }
 
-void push_to_end(linked_list_t *node)
+void push_to_end(list_t *node)
 {
-    linked_list_t *temp = node;
+    list_t *temp = node;
 
     while(temp->next != NULL)
     {
@@ -49,25 +49,25 @@ void push_to_end(linked_list_t *node)
         temp = temp->next;
     }
 
-    temp->next = malloc(sizeof(linked_list_t));
+    temp->next = malloc(sizeof(list_t));
     temp->node_data = temp->node_data + 1;
     //printf("List item: current is %p", temp->next->node_data);
     temp->next->next = NULL;
 }
 
-void push_to_begin(linked_list_t **node)
+void push_to_begin(list_t **node)
 {
-    linked_list_t *temp;
-    temp = malloc(sizeof(linked_list_t));
+    list_t *temp;
+    temp = malloc(sizeof(list_t));
     temp->node_data = temp->node_data + 1;
     temp->next = *node;
     *node = temp;
 }
 
-int pop(linked_list_t **node)
+int pop(list_t **node)
 {
     int return_val;
-    linked_list_t *temp = NULL;
+    list_t *temp = NULL;
 
     if(*node == NULL)
     {
@@ -82,10 +82,10 @@ int pop(linked_list_t **node)
     return return_val;
 }
 
-void remove_list(linked_list_t *node)
+void remove_list(list_t *node)
 {
-    linked_list_t *temp = node;
-    linked_list_t *next = node;
+    list_t *temp = node;
+    list_t *next = node;
 
     while(temp)
     {
@@ -95,9 +95,9 @@ void remove_list(linked_list_t *node)
     }
 }
 
-void print_list(linked_list_t *node)
+void print_list(list_t *node)
 {
-    linked_list_t *temp = node;
+    list_t *temp = node;
 
     while(temp != NULL)
     {
@@ -108,7 +108,7 @@ void print_list(linked_list_t *node)
 
 int main()
 {
-    linked_list_t *list;
+    list_t *list;
     list = create_linked_list(5);
     print_list(list);
 
