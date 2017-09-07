@@ -15,12 +15,12 @@ typedef struct d_list
 
 typedef struct queue
 {
-    struct queue *first;
-    struct queue *last;
+    node_t *first;
+    node_t *last;
     int size;
 } queue_t;
 
-node_t *create_node()
+node_t *create_node(n)
 {
     node_t *head = (node_t*)malloc(sizeof(node_t));
     if(head == NULL)
@@ -31,7 +31,7 @@ node_t *create_node()
 
     head->next = NULL;
     head->prev = NULL;
-    head->node_data++;
+    head->node_data = n;
     return head;
 }
 
@@ -46,12 +46,28 @@ queue_t* create_queue()
 
     temp->first = NULL;
     temp->last  = NULL;
-    //temp->size  = n;
+    temp->size++;
     return temp;
+}
+
+void enqueue(queue_t *queue, int n)
+{
+    node_t *node = create_node(n);
+    if(queue == NULL)
+    {
+        queue->first = node;
+        queue->last  = node;
+    }
+
+    queue->last->next = node;
+    queue->last->prev = queue->last->next;
+    queue->last = node;
 }
 
 int main()
 {
+    queue_t *q = NULL;
+    q = create_queue();
 
-
+    enqueue(q, 1);
 }
