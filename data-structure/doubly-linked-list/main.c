@@ -6,19 +6,18 @@
  * Allows operations create node, list, push, pop, remove.
  */
 
-typedef struct d_linked_list
+typedef struct d_list
 {
     size_t node_data;
-    struct d_linked_list *next;
-    struct d_linked_list *prev;
+    struct d_list *next;
+    struct d_list *prev;
+} d_list_t;
 
-} d_linked_list_t;
-
-d_linked_list_t *create_node()
+d_list_t *create_node()
 {
-    d_linked_list_t *head = NULL;
+    d_list_t *head = NULL;
 
-    head = (d_linked_list_t*)malloc(sizeof(d_linked_list_t));
+    head = (d_list_t*)malloc(sizeof(d_list_t));
     if(head == NULL)
     {
         printf("Allocation memory failed!");
@@ -32,10 +31,10 @@ d_linked_list_t *create_node()
     return head;
 }
 
-d_linked_list_t* create_list(size_t n)
+d_list_t* create_list(size_t n)
 {
-    d_linked_list_t *curr = NULL;
-    d_linked_list_t *first = NULL;
+    d_list_t *curr = NULL;
+    d_list_t *first = NULL;
 
     if(n > 0)
     {
@@ -57,10 +56,10 @@ d_linked_list_t* create_list(size_t n)
     return first;
 }
 
-int print_length_list(d_linked_list_t *head)
+int print_length_list(d_list_t *head)
 {
     int length = 0;
-    d_linked_list_t *curr = NULL;
+    d_list_t *curr = NULL;
     for(curr = head; curr != NULL; curr = curr->next)
     {
         length = length + 1;
@@ -69,9 +68,9 @@ int print_length_list(d_linked_list_t *head)
     return length;
 }
 
-void print_foward_list(d_linked_list_t *node)
+void print_foward_list(d_list_t *node)
 {
-    d_linked_list_t *temp = node;
+    d_list_t *temp = node;
 
     if(node == NULL)
     {
@@ -90,9 +89,9 @@ void print_foward_list(d_linked_list_t *node)
 }
 
 
-void print_backward_list(d_linked_list_t *node)
+void print_backward_list(d_list_t *node)
 {
-    d_linked_list_t *temp = node;
+    d_list_t *temp = node;
 
     if(node == NULL)
     {
@@ -116,10 +115,10 @@ void print_backward_list(d_linked_list_t *node)
     }
 }
 
-void push_to_end(d_linked_list_t *head)
+void push_to_end(d_list_t *head)
 {
-    d_linked_list_t *temp = head;
-    d_linked_list_t *node = create_node();
+    d_list_t *temp = head;
+    d_list_t *node = create_node();
 
     if(head == NULL)
     {
@@ -139,18 +138,18 @@ void push_to_end(d_linked_list_t *head)
     //printf("List item: current is %zu \n", temp->next->node_data);
 }
 
-void push_to_begin(d_linked_list_t **head)
+void push_to_begin(d_list_t **head)
 {
-    d_linked_list_t *node = create_node();
+    d_list_t *node = create_node();
     node->node_data = (*head)->node_data + 1;
     node->next = (*head);
     node->prev = NULL;
     (*head) = node;
 }
 
-void remove_list(d_linked_list_t *node)
+void remove_list(d_list_t *node)
 {
-    d_linked_list_t *temp = NULL;
+    d_list_t *temp = NULL;
 
     while(node != NULL)
     {
@@ -162,9 +161,9 @@ void remove_list(d_linked_list_t *node)
     printf("List removed.\n");
 }
 
-void pop(d_linked_list_t **node)
+void pop(d_list_t **node)
 {
-    d_linked_list_t *temp = NULL;
+    d_list_t *temp = NULL;
     temp = (*node)->next;
     free((*node));
     (*node) = temp;
@@ -172,7 +171,7 @@ void pop(d_linked_list_t **node)
 
 int main()
 {
-    d_linked_list_t *head_list= NULL;
+    d_list_t *head_list= NULL;
     head_list = create_list(10);
 
     print_foward_list(head_list);
