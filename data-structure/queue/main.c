@@ -64,7 +64,7 @@ void enqueue(queue_t *queue, int n)
     printf("Added node to queue \n");
 
     node->prev = queue->last;
-    node->prev->next = node;
+    node->next = node;
     queue->last = node;
 }
 
@@ -90,8 +90,8 @@ int main()
     q = create_queue();
 
     enqueue(q, 1);
-    //enqueue(q, 2);
-
+    enqueue(q, 2);
+    enqueue(q, 3);
 
     //print_queue(q);
 }
