@@ -66,18 +66,19 @@ void enqueue(queue_t *queue)
 
 void dequeue(queue_t *queue)
 {
+    /// Remove nodes from front
     node_t *temp = NULL;
-
     temp = queue->first;
     queue->first = queue->first->next;
     free(temp);
 
     if(queue->first == NULL)
     {
+        // if is pointer queue->first == NULL
+        // free alocated memory
         free(queue);
     }
 }
-
 
 int main()
 {
@@ -89,14 +90,9 @@ int main()
 
     dequeue(queue);
     dequeue(queue);
+
     ///printf("first item = %d\n", queue->first->node_data );
     ///printf("last item = %d\n\n", queue->last->node_data );
 
     return 0;
 }
-
-
-
-
-
-
