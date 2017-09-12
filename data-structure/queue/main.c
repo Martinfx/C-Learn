@@ -52,6 +52,22 @@ queue_t* create_queue()
     return temp;
 }
 
+/*
+void remove_queue(queue_t *queue)
+{
+    node_t *temp = NULL;
+    while(queue->last != NULL)
+    {
+        temp = queue->last;
+        queue->last = queue->last->next;
+        free(temp);
+
+          printf("Queue free.\n");
+    }
+
+     printf("Queue removed.\n");
+}*/
+
 void enqueue(queue_t *queue, int n)
 {
     node_t *node = create_node(n);
@@ -68,18 +84,35 @@ void enqueue(queue_t *queue, int n)
     queue->last = node;
 }
 
+void dequeue(queue_t *queue)
+{
+    /*node_t *temp = queue->first;
+    if((queue->first == NULL) && (queue->last == NULL))
+    {
+        printf("Queue is empty!");
+        return;
+    }
+
+    queue->first = queue->first->next;
+    free(temp);
+    //temp = queue->first;
+    //queue->first = temp->next;
+    //free(temp); */
+}
+
 void print_queue(queue_t *queue)
 {
-    if(queue->first == NULL && queue->last == NULL)
+    node_t *temp = queue->last;
+
+    if((queue->first == NULL) && (queue->last == NULL))
     {
         printf("Queue is empty! \n");
         return;
     }
 
-    node_t *temp = queue->first;
-    while(temp != NULL)
+    while(temp->next != NULL)
     {
-        printf("Queue data: %d", temp->node_data);
+        printf("%d \n", temp->node_data);
         temp = temp->next;
     }
 }
@@ -92,6 +125,10 @@ int main()
     enqueue(q, 1);
     enqueue(q, 2);
     enqueue(q, 3);
+
+    //dequeue(q);
+    //dequeue(q);
+    //dequeue(q);
 
     //print_queue(q);
 }
