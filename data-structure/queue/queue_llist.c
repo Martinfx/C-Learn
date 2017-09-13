@@ -16,7 +16,6 @@ typedef struct queue
 {
     node_t *first;
     node_t *last;
-    int size;
 } queue_t;
 
 node_t *create_node()
@@ -60,7 +59,7 @@ void enqueue(queue_t *queue)
 
     queue->last->next = node;
     queue->last = node;
-    printf("Added node to queue \n");
+    printf("Added node to queue. \n");
 
 }
 
@@ -71,6 +70,8 @@ void dequeue(queue_t *queue)
     temp = queue->first;
     queue->first = queue->first->next;
     free(temp);
+
+    printf("Delete node.\n");
 
     if(queue->first == NULL)
     {
@@ -87,10 +88,11 @@ int main()
 
     enqueue(queue);
     enqueue(queue);
+    enqueue(queue);
 
     dequeue(queue);
     dequeue(queue);
-
+    dequeue(queue);
     ///printf("first item = %d\n", queue->first->node_data );
     ///printf("last item = %d\n\n", queue->last->node_data );
 

@@ -17,7 +17,6 @@ typedef struct queue
 {
     node_t *first;
     node_t *last;
-    int size;
 } queue_t;
 
 node_t *create_node(int n)
@@ -47,24 +46,10 @@ queue_t* create_queue()
 
     temp->first = NULL;
     temp->last  = NULL;
-    temp->size++;
-    printf("Create queue: %d \n", temp->size);
+
+    printf("Create struct queue.\n");
     return temp;
 }
-
-/*
-void remove_queue(queue_t *queue)
-{
-    node_t *temp = NULL;
-    while(queue->last != NULL)
-    {
-        temp = queue->last;
-        queue->last = queue->last->next;
-        free(temp);
-          printf("Queue free.\n");
-    }
-     printf("Queue removed.\n");
-}*/
 
 void enqueue(queue_t *queue, int n)
 {
@@ -78,28 +63,35 @@ void enqueue(queue_t *queue, int n)
     printf("Added node to queue \n");
 
     node->prev = queue->last;
-    node->next = node;
+    queue->first = node->next;
     queue->last = node;
 }
 
 void dequeue(queue_t *queue)
 {
-    /*node_t *temp = queue->first;
+    node_t *temp = NULL;
+    temp = queue->first;
     if((queue->first == NULL) && (queue->last == NULL))
     {
         printf("Queue is empty!");
+        temp = NULL;
         return;
     }
-    queue->first = queue->first->next;
+
+    else
+    {
+        queue->first = queue->first->next;
+        queue->first->prev = NULL;
+    }
+
     free(temp);
-    //temp = queue->first;
-    //queue->first = temp->next;
-    //free(temp); */
+
 }
 
 void print_queue(queue_t *queue)
 {
-    node_t *temp = queue->last;
+    node_t *temp = NULL;
+    temp = queue->last;
 
     if((queue->first == NULL) && (queue->last == NULL))
     {
@@ -121,9 +113,9 @@ int main()
 
     enqueue(q, 1);
     enqueue(q, 2);
-    enqueue(q, 3);
+    //enqueue(q, 3);
 
-    //dequeue(q);
+    dequeue(q);
     //dequeue(q);
     //dequeue(q);
 
