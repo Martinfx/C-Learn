@@ -15,9 +15,9 @@ typedef struct stack_chunk
 
 typedef struct stack
 {
-stack_chunk_t *base;
-stack_chunk_t *end;
-stack_chunk_t *top;
+    stack_chunk_t *base;
+    stack_chunk_t *end;
+    stack_chunk_t *top;
 } stack_t;
 
 static size_t STACK_SIZE = 10;
@@ -69,17 +69,28 @@ void push(stack_t *stack)
         printf("Added item to stack: %d \n", stack->top->number);
     }
 }
-/*
-int pop(stack_t *stack)
-{
 
-}*/
+void pop(stack_t *stack)
+{
+    //stack_chunk_t *data = NULL;
+    if(stack->top == stack->base)
+    {
+        //data = NULL;
+        printf("Stack is empty!");
+    }
+    else
+    {
+        stack->top = stack->top - 1;
+    }
+}
 
 int main()
 {
     stack_t *stack = NULL;
     stack = create_stack();
     push(stack);
+    pop(stack);
+    pop(stack);
 
     return 0;
 }
