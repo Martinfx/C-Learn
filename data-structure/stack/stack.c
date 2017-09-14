@@ -4,14 +4,13 @@
 
 /*
  * Example for data structure stack
- * Allows operations
+ * Allows operations create_stack(), remove_stack(), push(), pop()
  */
 
 typedef struct stack_chunk
 {
-    int number;
+    size_t number;
 } stack_chunk_t;
-
 
 typedef struct stack
 {
@@ -20,8 +19,7 @@ typedef struct stack
     stack_chunk_t *top;
 } stack_t;
 
-static size_t STACK_SIZE = 10;
-
+static size_t STACK_MAX_SIZE = 5;
 
 stack_t *create_stack()
 {
@@ -35,14 +33,14 @@ stack_t *create_stack()
     stack->top  = NULL;
     stack->end  = NULL;
 
-    stack->base = (stack_chunk_t*)malloc(STACK_SIZE * sizeof (stack_chunk_t));
+    stack->base = (stack_chunk_t*)malloc(STACK_MAX_SIZE * sizeof (stack_chunk_t));
     if(stack == NULL)
     {
         printf("Allocation memory failed for stack_chunk_t !");
         return NULL;
     }
 
-    stack->end  = stack->base + STACK_SIZE;
+    stack->end  = stack->base + STACK_MAX_SIZE;
     stack->top  = stack->base;
 
     printf("Create stack.\n");
@@ -63,28 +61,25 @@ void remove_stack(stack_t *stack)
     }
 }
 
-void push(stack_t *stack)
+void push(stack_t *stack, size_t data)
 {
     if(stack->top == stack->end)
     {
-        printf("Stack is empty!");
+        printf("Stack is full!");
     }
     else
     {
-        memcpy(stack->top, stack, sizeof(stack_t));
+        stack->top->number = data;
+        printf("Added item to stack: %zu \n", stack->top->number);
         stack->top = stack->top + 1;
-        stack->top->number++;
-        printf("Added item to stack: %d \n", stack->top->number);
     }
 }
 
 void pop(stack_t *stack)
 {
-    //stack_chunk_t *data = NULL;
     if(stack->top == stack->base)
     {
-        //data = NULL;
-        printf("Stack is empty!");
+        printf("Pop Stack is empty!");
     }
     else
     {
@@ -96,9 +91,14 @@ int main()
 {
     stack_t *stack = NULL;
     stack = create_stack();
-    push(stack);
-    pop(stack);
-    pop(stack);
+    push(stack, 10);
+    push(stack, 20);
+    push(stack, 30);
+    push(stack, 40);
+    push(stack, 50);
+
+    //pop(stack);
+    //pop(stack);
 
     remove_stack(stack);
 
