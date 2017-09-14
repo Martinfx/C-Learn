@@ -28,8 +28,7 @@ node_t *create_node()
     }
 
     node->next = NULL;
-    node->node_data++;
-    printf("Create node data: %d \n", node->node_data);
+
     return node;
 }
 
@@ -61,7 +60,6 @@ void lenght_queue(queue_t *queue)
     }
 
     printf("Lenght of queue: %d \n", lenght);
-
 }
 
 void enqueue(queue_t *queue)
@@ -100,18 +98,21 @@ void dequeue(queue_t *queue)
 
 int main()
 {
+    const int QUEUE_MAX_SIZE = 10;
     queue_t *queue = NULL;
     queue = create_queue();
 
-    enqueue(queue);
-    enqueue(queue);
-    enqueue(queue);
+    for(int i = 0; i < QUEUE_MAX_SIZE; i++)
+    {
+        enqueue(queue);
+    }
 
     lenght_queue(queue);
 
-    dequeue(queue);
-    dequeue(queue);
-    dequeue(queue);
+    for(int i = 0; i < QUEUE_MAX_SIZE; i++)
+    {
+        dequeue(queue);
+    }
     ///printf("first item = %d\n", queue->first->node_data );
     ///printf("last item = %d\n\n", queue->last->node_data );
 
