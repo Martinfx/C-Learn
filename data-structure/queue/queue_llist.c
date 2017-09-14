@@ -47,6 +47,23 @@ queue_t *create_queue()
     return queue;
 }
 
+void lenght_queue(queue_t *queue)
+{
+    node_t *temp = NULL;
+    int lenght = 0;
+
+    temp = queue->first;
+
+    while(temp != NULL)
+    {
+        temp = temp->next;
+        lenght++;
+    }
+
+    printf("Lenght of queue: %d \n", lenght);
+
+}
+
 void enqueue(queue_t *queue)
 {
     node_t *node = create_node();
@@ -89,6 +106,8 @@ int main()
     enqueue(queue);
     enqueue(queue);
     enqueue(queue);
+
+    lenght_queue(queue);
 
     dequeue(queue);
     dequeue(queue);
