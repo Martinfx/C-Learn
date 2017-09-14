@@ -49,11 +49,19 @@ stack_t *create_stack()
 
     return stack;
 }
-/*
+
 void remove_stack(stack_t *stack)
 {
+    if(stack->base != NULL)
+    {
+        free(stack->base);
+    }
 
-}*/
+    if(stack != NULL)
+    {
+        free(stack);
+    }
+}
 
 void push(stack_t *stack)
 {
@@ -91,6 +99,8 @@ int main()
     push(stack);
     pop(stack);
     pop(stack);
+
+    remove_stack(stack);
 
     return 0;
 }
