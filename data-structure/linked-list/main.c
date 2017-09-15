@@ -6,10 +6,10 @@
  * Allows operations push, pop, remove, delete item.
  */
 
-typedef struct linked_list
+typedef struct list
 {
     int node_data;
-    struct linked_list *next;
+    struct list *next;
 } list_t;
 
 list_t *create_node()
