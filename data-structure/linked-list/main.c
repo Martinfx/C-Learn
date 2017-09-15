@@ -57,7 +57,7 @@ void push_to_end(list_t *node)
         temp = temp->next;
     }
 
-    temp->next = malloc(sizeof(list_t));
+    temp->next = create_node();
     temp->node_data = temp->node_data + 1;
     //printf("List item: current is %p", temp->next->node_data);
     temp->next->next = NULL;
@@ -66,7 +66,7 @@ void push_to_end(list_t *node)
 void push_to_begin(list_t **node)
 {
     list_t *temp;
-    temp = malloc(sizeof(list_t));
+    temp = create_node();
     temp->node_data = temp->node_data + 1;
     temp->next = *node;
     *node = temp;
