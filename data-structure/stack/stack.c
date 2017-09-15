@@ -79,11 +79,29 @@ void pop(stack_t *stack)
 {
     if(stack->top == stack->base)
     {
-        printf("Pop Stack is empty!");
+        printf("Pop Stack is empty! \n");
     }
     else
     {
+
         stack->top = stack->top - 1;
+        printf("Pop item: %zu \n", stack->top->number);
+    }
+}
+
+void pop_items(stack_t *stack)
+{
+    stack_chunk_t *data = NULL;
+    data = stack->top;
+
+    while(data != NULL)
+    {
+        if(stack->top == stack->base)
+        {
+            break;
+        }
+
+        pop(stack);
     }
 }
 
@@ -99,6 +117,9 @@ int main()
 
     //pop(stack);
     //pop(stack);
+
+    pop_items(stack);
+
 
     remove_stack(stack);
 
