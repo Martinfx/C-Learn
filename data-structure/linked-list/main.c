@@ -12,6 +12,20 @@ typedef struct linked_list
     struct linked_list *next;
 } list_t;
 
+list_t *create_node()
+{
+    list_t *node = NULL;
+
+    node = (list_t*)malloc(sizeof(list_t));
+    if(node == NULL)
+    {
+        printf("Allocation memory failed!");
+        return NULL;
+    }
+
+    return node;
+}
+
 list_t* create_linked_list(int n)
 {
     list_t *head = NULL;
@@ -21,13 +35,7 @@ list_t* create_linked_list(int n)
     {
         for(int i = 0; i < n; i++)
         {
-            temp = malloc(sizeof(list_t));
-            if(temp == NULL)
-            {
-                printf("Allocation memory failed!");
-                return NULL;
-            }
-
+            temp = create_node();
             temp->node_data = i;
             temp->next = head;
             head = temp;
@@ -101,7 +109,7 @@ void print_list(list_t *node)
 
     while(temp != NULL)
     {
-        printf("List item: current is %p; next is %p; data is %d\n", (void*)temp, (void*)temp->next, temp->node_data);
+        //printf("List item: current is %p; next is %p; data is %d\n", (void*)temp, (void*)temp->next, temp->node_data);
         temp = temp->next;
     }
 }
