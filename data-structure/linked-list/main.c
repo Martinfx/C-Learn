@@ -23,6 +23,8 @@ list_t *create_node()
         return NULL;
     }
 
+    node->next = NULL;
+
     return node;
 }
 
@@ -45,22 +47,47 @@ list_t* create_linked_list(int n)
     return head;
 }
 
-void push_to_end(list_t *node)
+list_t *push_to_end_return_head(list_t *node)
 {
-    list_t *temp = node;
-
-    while(temp->next != NULL)
+    if(node == NULL)
     {
-        //printf("while : %d\n", temp->node_data);
-        //temp->next->node_data = temp->next->node_data + 1;
-        temp->node_data = temp->node_data + 1;
-        temp = temp->next;
+        node = create_node();
+        return node;
+    }
+    else
+    {
+        while(node->next)
+        {
+            //printf("node: %d, node->next: %d, node->node_data: %d \n", node, node->next, node->node_data);
+            node = node->next;
+        }
+
+        node->next = create_node();
+        node->next->next = NULL;
     }
 
-    temp->next = create_node();
-    temp->node_data = temp->node_data + 1;
-    //printf("List item: current is %p", temp->next->node_data);
-    temp->next->next = NULL;
+    return  node;
+}
+
+void push_to_end(list_t *node)
+{
+
+    /*
+     * This is good idea, but we havent return value
+    if(node == NULL)
+    {
+        node = create_node();
+    }
+    */
+
+    while(node->next)
+    {
+        //printf("node: %d, node->next: %d, node->node_data: %d \n", node, node->next, node->node_data);
+        node = node->next;
+    }
+
+    node->next = create_node();
+    node->next->next = NULL;
 }
 
 void push_to_begin(list_t **node)
