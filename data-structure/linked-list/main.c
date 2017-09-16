@@ -58,6 +58,24 @@ list_t* create_linked_list(int n)
     return head;
 }
 
+int length_list(list_t *head)
+{
+    int length = 0;
+
+    if(head != NULL)
+    {
+        list_t *curr = NULL;
+        for(curr = head; curr != NULL; curr = curr->next)
+        {
+            length = length + 1;
+        }
+
+        return length;
+    }
+
+    return length;
+}
+
 list_t *push_to_end(list_t *head, int data)
 {
     list_t *node = create_node();
@@ -189,6 +207,8 @@ int main()
     list = create_linked_list(5);
     print_list(list);
 
+    printf("Lenght list is %d items.\n", length_list(list));
+
     list = push_to_end(list, 255);
     list = push_to_end(list, 333);
     print_list(list);
@@ -197,9 +217,13 @@ int main()
     list = push_to_begin(list, 88);
     print_list(list);
 
+    printf("Lenght list is %d items.\n", length_list(list));
+
     pop(&list);
     pop(&list);
     print_list(list);
+
+    printf("Lenght list is %d items.\n", length_list(list));
 
     remove_list(list);
 
