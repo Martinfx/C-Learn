@@ -3,7 +3,15 @@
 
 /*
  * Example for data structur linked list.
- * Allows operations push, pop, remove, delete item.
+ * Allows operations:
+ * create node,
+ * create linked list,
+ * push to begin,
+ * push to end,
+ * lenght list,
+ * pop,
+ * remove list,
+ * print list
  */
 
 typedef struct list
@@ -12,6 +20,9 @@ typedef struct list
     struct list *next;
 } list_t;
 
+/*
+ * Create node and return allocated item
+ */
 list_t *create_node()
 {
     list_t *node = NULL;
@@ -47,42 +58,46 @@ list_t* create_linked_list(int n)
     return head;
 }
 
-list_t *push_to_end_return_head(list_t *node)
+list_t *push_to_end(list_t *head, int data)
 {
-    if(node == NULL)
+    list_t *node = create_node();
+    node->node_data = data;
+    node->next = NULL;
+
+    if(head == NULL)
     {
-        node = create_node();
-        return node;
+        head = node;
+        head->next = NULL;
+        return head;
     }
     else
     {
-        while(node->next)
+
+        list_t *temp = head;
+        while(temp->next)
         {
             //printf("node: %d, node->next: %d, node->node_data: %d \n", node, node->next, node->node_data);
-            node = node->next;
+            temp = temp->next;
         }
 
-        node->next = create_node();
-        node->next->next = NULL;
+        temp->next = node;
+        temp->next->next = NULL;
     }
 
-    return  node;
+    return  head;
 }
 
-void push_to_end(list_t *node)
+void push_to_end_without_return(list_t *node)
 {
-
     list_t *temp = create_node();
     temp->next = NULL;
 
 
-    /*
-     * This is good idea, but we havent return value
+    // This is good idea, but we cannot return value
     if(node == NULL)
     {
         node = create_node();
     }
-    */
 
     while(node->next)
     {
@@ -94,14 +109,37 @@ void push_to_end(list_t *node)
     node->next->next = NULL;
 }
 
-void push_to_begin(list_t **node)
+list_t *push_to_begin(list_t *head, int data)
+{
+    list_t *node = create_node();
+    node->node_data = data;
+    node->next = NULL;
+
+    if(head == NULL)
+    {
+        head = node;
+        head->next = NULL;
+        return head;
+    }
+
+        ///list_t *temp = head;
+    node->next = head;
+    head = node;
+    return head;
+}
+
+/*
+ * Push item to begin list with pointer to pointer
+ */
+void push_to_begin_pointer_to_pointer(list_t **node, int data)
 {
     list_t *temp;
     temp = create_node();
-    temp->node_data = temp->node_data + 1;
+    temp->node_data = data;
     temp->next = *node;
     *node = temp;
 }
+
 
 int pop(list_t **node)
 {
@@ -132,31 +170,31 @@ void remove_list(list_t *node)
         free(temp);
         temp = next;
     }
+
+    node = NULL;
 }
 
-void print_list(list_t *node)
+void print_list(list_t *head)
 {
-    list_t *temp = node;
-
-    while(temp != NULL)
+    while(head != NULL)
     {
-        //printf("List item: current is %p; next is %p; data is %d\n", (void*)temp, (void*)temp->next, temp->node_data);
-        temp = temp->next;
+        printf("List item: current is %p; next is %p; data is %d\n", (void*)head, (void*)head->next, head->node_data);
+        head = head->next;
     }
 }
 
 int main()
 {
-    list_t *list;
+    list_t *list = NULL;
     list = create_linked_list(5);
     print_list(list);
 
-    push_to_end(list);
-    push_to_end(list);
+    list = push_to_end(list, 255);
+    list = push_to_end(list, 333);
     print_list(list);
 
-    push_to_begin(&list);
-    push_to_begin(&list);
+    list = push_to_begin(list, 20);
+    list = push_to_begin(list, 88);
     print_list(list);
 
     pop(&list);
