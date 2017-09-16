@@ -72,6 +72,10 @@ list_t *push_to_end_return_head(list_t *node)
 void push_to_end(list_t *node)
 {
 
+    list_t *temp = create_node();
+    temp->next = NULL;
+
+
     /*
      * This is good idea, but we havent return value
     if(node == NULL)
@@ -86,7 +90,7 @@ void push_to_end(list_t *node)
         node = node->next;
     }
 
-    node->next = create_node();
+    node->next = temp;
     node->next->next = NULL;
 }
 
