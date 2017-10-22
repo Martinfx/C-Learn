@@ -5,22 +5,21 @@ typedef struct
 {
     int x, y;
     double z;
-    long long int big;
+    long long int big_number;
 
-} test_struct;
-
+} test_t;
 
 int main()
 {
     const int size_alloc = 4;
 
-    test_struct *p = NULL, *q = NULL;
+    test_t *test = NULL, *pointer = NULL;
 
-    printf("Size of test_struct: %lu\n", sizeof(test_struct));
+    printf("Size of test_struct: %lu\n", sizeof(test_t));
 
-    p = (test_struct*)calloc(size_alloc, sizeof (test_struct));
+    test = (test_t*)calloc(size_alloc, sizeof (test_t));
 
-    if(p == NULL)
+    if(test == NULL)
     {
         printf("Allocation failed, pointer is NULL!");
         exit(EXIT_FAILURE);
@@ -28,25 +27,26 @@ int main()
 
     for(int i = 0; i < size_alloc; i++)
     {
-        p[i].x = i;
-        p[i].y = i * 20;
-        p[i].z = 100000.0 + i;;
-        p[i].big = 4294967296 + i;
+        test[i].x = i;
+        test[i].y = i * 20;
+        test[i].z = 100000.0 + i;;
+        test[i].big_number = 4294967296 + i;
 
         printf("[%d] values:\n x is %d\n y is %d\n z is %f\n big is %lld\n",
-               i, p[i].x, p[i].y, p[i].z, p[i].big);
+               i, test[i].x, test[i].y, test[i].z, test[i].big_number);
     }
-    //q = p;
 
-    //printf("[0] values:\n x is %d\n y is %d\n z is %d\n big is %lld\n",
-    //       q->x, q->y, q->z, q->big);
+    pointer = test;
 
-    //q = q + 2;
+    printf("[0] values:\n x is %d\n y is %d\n z is %f\n big is %lld\n",
+           pointer->x, pointer->y, pointer->z, pointer->big_number);
 
-    //printf("[2] values:\n x is %d\n y is %d\n z is %d\n big is %lld\n",
-    //       q->x, q->y, q->z, q->big);
+    pointer = pointer + 2;
 
-    free(p);
+    printf("[2] values:\n x is %d\n y is %d\n z is %f\n big is %lld\n",
+           pointer->x, pointer->y, pointer->z, pointer->big_number);
+
+    free(test);
 
     return 0;
 }
