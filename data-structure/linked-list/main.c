@@ -12,6 +12,7 @@
  * pop,
  * remove list,
  * print list
+ * search item
  */
 
 typedef struct list
@@ -90,7 +91,6 @@ list_t *push_to_end(list_t *head, int data)
     }
     else
     {
-
         list_t *temp = head;
         while(temp->next)
         {
@@ -109,7 +109,6 @@ void push_to_end_without_return(list_t *node)
 {
     list_t *temp = create_node();
     temp->next = NULL;
-
 
     // This is good idea, but we cannot return value
     if(node == NULL)
@@ -158,10 +157,9 @@ void push_to_begin_pointer_to_pointer(list_t **node, int data)
     *node = temp;
 }
 
-
 int pop(list_t **node)
 {
-    int return_val;
+    int data = 0;
     list_t *temp = NULL;
 
     if(*node == NULL)
@@ -170,11 +168,11 @@ int pop(list_t **node)
     }
 
     temp = (*node)->next;
-    return_val = (*node)->node_data;
+    data = (*node)->node_data;
     free(*node);
     *node = temp;
 
-    return return_val;
+    return data;
 }
 
 void remove_list(list_t *node)
@@ -201,6 +199,26 @@ void print_list(list_t *head)
     }
 }
 
+int search_item(list_t *head, int item)
+{
+    list_t *temp = head;
+
+    if(head == NULL)
+    {
+        printf("Cannot find item!");
+    }
+
+    while(temp->node_data != item)
+    {
+        temp = temp->next;
+
+        if(temp->node_data == item)
+        {
+            printf("Found item: %d\n", temp->node_data);
+        }
+    }
+}
+
 int main()
 {
     list_t *list = NULL;
@@ -216,6 +234,8 @@ int main()
     list = push_to_begin(list, 20);
     list = push_to_begin(list, 88);
     print_list(list);
+
+    search_item(list, 255);
 
     printf("Lenght list is %d items.\n", length_list(list));
 
