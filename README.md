@@ -8,6 +8,7 @@
 #### Data structures in language C
   * Linked list
   * Doubly linked list
+  * Circual-linked-list
   * Queue implemented as Linked list
   * Queue implemented as Double linked list
   * Stack
@@ -17,4 +18,4 @@
   
 ### For contributions 
  * Contribution are welcome !
-
+ 
