@@ -3,7 +3,4 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES += \
-    multipleIndirection.c
-
-HEADERS +=
+SOURCES += multipleIndirection_string.c

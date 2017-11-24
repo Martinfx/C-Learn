@@ -10,6 +10,8 @@ int main(int argc, char **argv) {
 
     printf ("multiple indirection example\n");
 
+    printf("size_array(data) %d : \n", size_array(data));
+
     // initialize our integer array
     for (unsigned int i = 0; i < size_array(data); i++)
     {
@@ -17,7 +19,7 @@ int main(int argc, char **argv) {
     }
     for (unsigned int i = 0; i < size_array(data); i++)
     {
-        printf("%d\n", data[i]);
+        printf("Position %d, %d\n", i, data[i]);
     }
 
     /*

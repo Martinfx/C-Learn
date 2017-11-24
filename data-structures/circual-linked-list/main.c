@@ -67,7 +67,7 @@ void print_list(list_t *head)
     {
         list_t *temp = NULL;
 
-        if (head == NULL)+
+        if (head == NULL)
         {
             printf("List is empty.");
             return;
@@ -118,6 +118,7 @@ void remove_list(list_t *node)
 
     node = NULL;
 }
+
 int main()
 {
     list_t *list = NULL;

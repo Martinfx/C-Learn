@@ -126,7 +126,7 @@ void push_to_end_without_return(list_t *node)
     node->next->next = NULL;
 }
 
-list_t *push_to_begin(list_t *head, int data)
+list_t *push_to_front(list_t *head, int data)
 {
     list_t *node = create_node();
     node->node_data = data;
@@ -199,7 +199,7 @@ void print_list(list_t *head)
     }
 }
 
-int search_item(list_t *head, int item)
+int search_key(list_t *head, int item)
 {
     list_t *temp = head;
 
@@ -231,11 +231,11 @@ int main()
     list = push_to_end(list, 333);
     print_list(list);
 
-    list = push_to_begin(list, 20);
-    list = push_to_begin(list, 88);
+    list = push_to_front(list, 20);
+    list = push_to_front(list, 88);
     print_list(list);
 
-    search_item(list, 255);
+    search_key(list, 255);
 
     printf("Lenght list is %d items.\n", length_list(list));
 
