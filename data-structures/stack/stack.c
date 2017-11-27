@@ -4,22 +4,22 @@
 
 /*
  * Example for data structure stack
- * Allows operations create_stack(), remove_stack(), push(), pop()
+ * Allows operations
+ * create_stack(),
+ * remove_stack(),
+ * push(),
+ * pop()
+ * pop_items()
  */
-
-typedef struct stack_chunk
-{
-    size_t number;
-} stack_chunk_t;
 
 typedef struct stack
 {
-    stack_chunk_t *base;
-    stack_chunk_t *end;
-    stack_chunk_t *top;
+    size_t number;
+    struct stack *base;
+    struct stack *end;
+    struct stack *top;
+    size_t STACK_MAX_SIZE;
 } stack_t;
-
-static size_t STACK_MAX_SIZE = 5;
 
 stack_t *create_stack()
 {
@@ -32,15 +32,16 @@ stack_t *create_stack()
     stack->base = NULL;
     stack->top  = NULL;
     stack->end  = NULL;
+    stack->STACK_MAX_SIZE = 10;
 
-    stack->base = (stack_chunk_t*)malloc(STACK_MAX_SIZE * sizeof (stack_chunk_t));
+    stack->base = (stack_t*)malloc(stack->STACK_MAX_SIZE * sizeof(stack_t));
     if(stack == NULL)
     {
         printf("Allocation memory failed for stack_chunk_t !");
         return NULL;
     }
 
-    stack->end  = stack->base + STACK_MAX_SIZE;
+    stack->end  = stack->base + stack->STACK_MAX_SIZE;
     stack->top  = stack->base;
 
     printf("Create stack.\n");
@@ -80,21 +81,19 @@ void pop(stack_t *stack)
     if(stack->top == stack->base)
     {
         printf("Pop Stack is empty! \n");
+        return;
     }
-    else
-    {
 
-        stack->top = stack->top - 1;
-        printf("Pop item: %zu \n", stack->top->number);
-    }
+    stack->top = stack->top - 1;
+    printf("Pop item: %zu \n", stack->top->number);
 }
 
 void pop_items(stack_t *stack)
 {
-    stack_chunk_t *data = NULL;
-    data = stack->top;
+    stack_t *temp = NULL;
+    temp = stack->top;
 
-    while(data != NULL)
+    while(temp != NULL)
     {
         if(stack->top == stack->base)
         {
@@ -111,15 +110,10 @@ int main()
     stack = create_stack();
     push(stack, 10);
     push(stack, 20);
-    push(stack, 30);
-    push(stack, 40);
-    push(stack, 50);
 
-    //pop(stack);
-    //pop(stack);
-
-    pop_items(stack);
-
+    pop(stack);
+    pop(stack);
+    pop(stack);
 
     remove_stack(stack);
 
