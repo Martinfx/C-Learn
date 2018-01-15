@@ -3,4 +3,7 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES += doubly-linked-list.c
+SOURCES += tree.c
+
+HEADERS += \
+    queue.h

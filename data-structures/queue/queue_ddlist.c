@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 /*
  * Example for simple queue data
@@ -8,7 +9,7 @@
 
 typedef struct d_list
 {
-    int node_data;
+    int key;
     struct d_list *next;
     struct d_list *prev;
 } node_t;
@@ -19,7 +20,7 @@ typedef struct queue
     node_t *last;
 } queue_t;
 
-node_t *create_node(int n)
+node_t *create_node()
 {
     node_t *head = (node_t*)malloc(sizeof(node_t));
     if(head == NULL)
@@ -30,8 +31,8 @@ node_t *create_node(int n)
 
     head->next = NULL;
     head->prev = NULL;
-    head->node_data = n;
-    printf("Create node data: %d \n", head->node_data);
+    head->key = 0;
+    printf("Create node data: %d \n", head->key);
     return head;
 }
 
@@ -51,9 +52,16 @@ queue_t* create_queue()
     return temp;
 }
 
-void enqueue(queue_t *queue, int n)
+bool is_empty(queue_t *queue)
 {
-    node_t *node = create_node(n);
+    return ((queue->first == NULL) && (queue->last == NULL));
+}
+
+void enqueue(queue_t *queue, int key)
+{
+    node_t *node = create_node();
+    node->key = key;
+
     if(queue == NULL)
     {
         queue->first = node;
@@ -69,23 +77,22 @@ void enqueue(queue_t *queue, int n)
 
 void dequeue(queue_t *queue)
 {
-    node_t *temp = NULL;
-    temp = queue->first;
-    if((queue->first == NULL) && (queue->last == NULL))
+    if(queue == NULL)
     {
-        printf("Queue is empty!");
-        temp = NULL;
         return;
     }
-
     else
     {
-        queue->first = queue->first->next;
-        queue->first->prev = NULL;
+        node_t *temp = queue->last;
+        queue->last = temp->prev;
+        free(temp);
     }
 
-    free(temp);
-
+    if(is_empty(queue))
+    {
+        free(queue);
+        queue = NULL;
+    }
 }
 
 void print_queue(queue_t *queue)
@@ -101,23 +108,21 @@ void print_queue(queue_t *queue)
 
     while(temp->next != NULL)
     {
-        printf("%d \n", temp->node_data);
+        printf("%d \n", temp->key);
         temp = temp->next;
     }
 }
 
 int main()
 {
-    queue_t *q = NULL;
-    q = create_queue();
+    queue_t *queue = NULL;
+    queue = create_queue();
 
-    enqueue(q, 1);
-    enqueue(q, 2);
-    //enqueue(q, 3);
+    enqueue(queue, 1);
+    enqueue(queue, 2);
 
-    dequeue(q);
-    //dequeue(q);
-    //dequeue(q);
+    //print_queue(queue);
 
-    //print_queue(q);
+    dequeue(queue);
+    dequeue(queue);
 }

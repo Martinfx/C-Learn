@@ -1,6 +1,9 @@
 TEMPLATE = app
-CONFIG += console
+CONFIG += console -std=c11
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES += main.c
+SOURCES += linked-list.c
+
+HEADERS += \
+    linked-list.h

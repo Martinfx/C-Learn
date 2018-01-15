@@ -4,12 +4,7 @@
 
 /*
  * Example for data structure stack
- * Allows operations
- * create_stack(),
- * remove_stack(),
- * push(),
- * pop()
- * pop_items()
+ * Allows operations create_stack(), remove_stack(), push(), pop()
  */
 
 typedef struct stack

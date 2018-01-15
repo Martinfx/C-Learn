@@ -2,14 +2,14 @@
 
 int fibonacci(int i)
 {
-	if(i < 2)
-	{
+    if(i < 2)
+    {
         return i;
-	}
-	else
-	{
+    }
+    else
+    {
         return fibonacci(i - 1) + fibonacci(i - 2);
-	}
+    }
 }
 
 int factorial(int i)

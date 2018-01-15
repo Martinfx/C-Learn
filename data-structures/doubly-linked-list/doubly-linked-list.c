@@ -8,7 +8,7 @@
 
 typedef struct d_list
 {
-    size_t node_data;
+    int key;
     struct d_list *next;
     struct d_list *prev;
 } d_list_t;
@@ -26,34 +26,26 @@ d_list_t *create_node()
 
     head->next = NULL;
     head->prev = NULL;
-    head->node_data = 0;
+    head->key = 0;
 
     return head;
 }
 
-d_list_t* create_list(size_t n)
+d_list_t* create_list()
 {
-    d_list_t *curr = NULL;
-    d_list_t *first = NULL;
-
-    if(n > 0)
+    d_list_t *list = NULL;
+    list = (d_list_t*)malloc(sizeof(d_list_t));
+    if(list == NULL)
     {
-        for(size_t i = 0; i < n; i++)
-        {
-            curr = create_node();
-            curr->next = first;
-            curr->prev = NULL;
-            curr->node_data = i;
-
-            if(first)
-            {
-                first->prev = curr;
-            }
-
-            first = curr;
-        }
+        printf("Allocation memory failed!");
+        return NULL;
     }
-    return first;
+
+    list->next = NULL;
+    list->prev = NULL;
+    list->key = 0;
+
+    return list;
 }
 
 int print_length_list(d_list_t *head)
@@ -68,7 +60,7 @@ int print_length_list(d_list_t *head)
     return length;
 }
 
-void print_foward_list(d_list_t *node)
+void print_forward_list(d_list_t *node)
 {
     d_list_t *temp = node;
 
@@ -77,12 +69,19 @@ void print_foward_list(d_list_t *node)
         printf("List is empty!\n");
     }
 
+    printf("------------------------------------------------\n");
+
     while (temp != NULL)
     {
-        printf("Forward list item : current is %p; next is %p; prev is %p;\n",
+        printf("Forward list item: "
+               "current is %p; "
+               "next is %p; "
+               "prev is %p; "
+               "key is %d\n",
                (void*)temp,
                (void*)temp->next,
-               (void*)temp->prev);
+               (void*)temp->prev,
+               temp->key);
 
         temp = temp->next;
     }
@@ -98,6 +97,8 @@ void print_backward_list(d_list_t *node)
         printf("List is empty!\n");
     }
 
+    printf("------------------------------------------------\n");
+
     // Go to for last node
     while(temp->next != NULL)
     {
@@ -106,19 +107,25 @@ void print_backward_list(d_list_t *node)
 
     while (temp != NULL)
     {
-        printf("Backward list item : current is %p; next is %p; prev is %p;\n",
+        printf("Backward list item: "
+               "current is %p; "
+               "next is %p; "
+               "prev is %p; "
+               "key is %d\n",
                (void*)temp,
                (void*)temp->next,
-               (void*)temp->prev);
+               (void*)temp->prev,
+               temp->key);
 
         temp = temp->prev;
     }
 }
 
-void push_to_end(d_list_t *head)
+void push_back(d_list_t *head, int key)
 {
     d_list_t *temp = head;
     d_list_t *node = create_node();
+    node->key = key;
 
     if(head == NULL)
     {
@@ -128,7 +135,7 @@ void push_to_end(d_list_t *head)
     while(temp->next != NULL)
     {
         //printf("while : %zu\n", temp->node_data);
-        temp->node_data = temp->node_data + 1;
+        temp->key = temp->key + 1;
         temp = temp->next;
     }
 
@@ -141,7 +148,7 @@ void push_to_end(d_list_t *head)
 void push_to_begin(d_list_t **head)
 {
     d_list_t *node = create_node();
-    node->node_data = (*head)->node_data + 1;
+    node->key = (*head)->key + 1;
     node->next = (*head);
     node->prev = NULL;
     (*head) = node;
@@ -172,17 +179,28 @@ void pop(d_list_t **node)
 int main()
 {
     d_list_t *head_list= NULL;
-    head_list = create_list(10);
+    head_list = create_list();
 
-    print_foward_list(head_list);
+    for(int i = 0; i < 10; i++)
+    {
+        push_back(head_list, i);
+    }
+
+    print_forward_list(head_list);
     print_backward_list(head_list);
 
-    push_to_end(head_list);
-    printf("Count of node in list : %d \n", print_length_list(head_list));
+    push_back(head_list, 2000);
+    printf("Count of node in list : %d \n",
+           print_length_list(head_list));
+
     push_to_begin(&head_list);
-    printf("Count of node in list : %d \n", print_length_list(head_list));
+    printf("Count of node in list : %d \n",
+           print_length_list(head_list));
+
     pop(&head_list);
-    printf("Count of node in list : %d \n", print_length_list(head_list));
+    printf("Count of node in list : %d \n",
+           print_length_list(head_list));
+
     remove_list(head_list);
 
     return 0;

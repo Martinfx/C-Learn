@@ -3,4 +3,4 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES += doubly-linked-list.c
+SOURCES += array.c

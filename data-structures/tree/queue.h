@@ -1,16 +1,32 @@
+#ifndef QUEUE_HPP
+#define QUEUE_HPP
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
-/*
- * Example for simple queue data
- * structure implemented as linked list.
- */
+int min(int a, int b)
+{
+    return (a) < (b) ? (a) : (b);
+}
+
+int max(int a, int b)
+{
+    return (a) > (b) ? (a) : (b);
+}
+
+typedef struct node
+{
+    int key;
+    int height;
+    struct node *left;
+    struct node *right;
+} tree_t;
 
 typedef struct llist
 {
     struct llist *next;
-    int key;
+    tree_t *key;
 } node_t;
 
 typedef struct queue
@@ -18,10 +34,9 @@ typedef struct queue
     node_t *first;
     node_t *last;
     int QUEUE_MAX_SIZE;
-    int count;
 } queue_t;
 
-node_t *create_node()
+node_t *create_node_queue()
 {
     node_t *node = (node_t*)malloc(sizeof(node_t));
     if(node == NULL)
@@ -31,8 +46,6 @@ node_t *create_node()
     }
 
     node->next = NULL;
-    node->key = 0;
-
     return node;
 }
 
@@ -47,12 +60,11 @@ queue_t *create_queue()
 
     queue->first = NULL;
     queue->last  = NULL;
-    queue->QUEUE_MAX_SIZE = 5;
-    queue->count = 0;
+    queue->QUEUE_MAX_SIZE = 20;
     return queue;
 }
 
-int lenght_queue(queue_t *queue)
+void lenght_queue(queue_t *queue)
 {
     node_t *temp = NULL;
     int lenght = 0;
@@ -66,11 +78,9 @@ int lenght_queue(queue_t *queue)
     }
 
     printf("Lenght of queue: %d \n", lenght);
-
-    return lenght;
 }
 
-bool is_empty(queue_t *queue)
+bool is_empty_queue(queue_t *queue)
 {
     if(queue == NULL)
     {
@@ -82,12 +92,6 @@ bool is_empty(queue_t *queue)
             (queue->last == NULL));
 }
 
-int count(queue_t *queue)
-{
-    int count = queue->count;
-    return count;
-}
-
 void free_queue(queue_t *queue)
 {
     if(queue->first == NULL)
@@ -95,12 +99,14 @@ void free_queue(queue_t *queue)
         // if is pointer queue->first == NULL
         // free dealocated memory
         free(queue);
+        queue = NULL;
     }
 }
 
-void enqueue(queue_t *queue, int x)
+void enqueue(queue_t *queue, tree_t *key)
 {
-    node_t *node = create_node();
+    node_t *node = create_node_queue();
+    node->key = key;
 
     if(queue->first == NULL)
     {
@@ -108,49 +114,22 @@ void enqueue(queue_t *queue, int x)
         queue->last  = node;
     }
 
-    node->key = x;
-
-    printf("Added node to queue\n");
+    printf("Added node to queue.\n");
 
     queue->last->next = node;
     queue->last = node;
-    queue->count++;
 }
 
 void dequeue(queue_t *queue)
 {
-    if(queue == NULL)
-    {
-        return;
-    }
-
     /// Remove nodes from front
     node_t *temp = NULL;
-    queue->count--;
     temp = queue->first;
     queue->first = queue->first->next;
     free(temp);
+    temp = NULL;
 
     printf("Delete node.\n");
 }
 
-int main()
-{
-    queue_t *queue = create_queue();
-
-    enqueue(queue, 10);
-    enqueue(queue, 20);
-    enqueue(queue, 30);
-
-    printf("first item = %d\n", queue->first->key);
-    printf("Count of nodes: %d \n", count(queue));
-    //printf("Lenght of queue: %d \n", lenght_queue(queue));
-
-    dequeue(queue);
-    dequeue(queue);
-    dequeue(queue);
-
-    free_queue(queue);
-
-    return 0;
-}
+#endif
