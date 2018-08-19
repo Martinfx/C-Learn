@@ -15,8 +15,7 @@ int main()
                    num2.begin(), std::back_inserter(vector_result),
                    [](int32_t i, int32_t j){ return i + j;});
 
-    for(auto i : vector_result)
-    {
+    for(auto i : vector_result) {
         std::cout << "Vector result: " << i << std::endl;
     }
 
@@ -24,8 +23,7 @@ int main()
                    num2.begin(), std::front_inserter(list_result),
                    [](int32_t i, int32_t j){ return i + j;});
 
-    for(auto i : list_result)
-    {
+    for(auto i : list_result) {
         std::cout << "List result: " << i << std::endl;
     }
 
