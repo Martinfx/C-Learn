@@ -1,5 +1,5 @@
-### Learning language C
-#### Advance work with pointers
+### Examples in language C/C++
+#### Work with pointers
   * Array 
   * Pointer
   * Pointer to pointer
@@ -9,7 +9,7 @@
   * Array
   * Linked list
   * Doubly linked list
-  * Circual-linked-list
+  * Circual linked list
   * Queue implemented as Linked list
   * Queue implemented as Double linked list
   * Stack
