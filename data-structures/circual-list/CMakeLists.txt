@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.0)
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_C_FLAGS "-g -Wall -ggdb") #("-fsanitize=address -fno-omit-frame-pointer")
+project(main.c)
+add_executable(${PROJECT_NAME} "main.c")
