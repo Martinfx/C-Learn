@@ -38,7 +38,7 @@ typedef struct node
 } list_t;
 
 list_t *create_list();
-list_t* push_front(list_t *list, int key);
+list_t* push_front(list_t &list, int key);
 list_t* pop_front(list_t *list);
 list_t *push_back(list_t *list, int key);
 list_t *pop_back(list_t *list);

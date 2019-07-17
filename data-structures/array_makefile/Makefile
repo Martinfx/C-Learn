@@ -1,5 +1,5 @@
 CC     = clang
-CFLAGS = -std=c11 -O2 -Wall -pedantic
+CFLAGS = -std=c11 -O2 -Wall -pedantic -g
 
 SOURCE = $(wildcard *.c *.cc *.cpp *.cxx)
 EXT    = $(firstword $(suffix $(SOURCE)))

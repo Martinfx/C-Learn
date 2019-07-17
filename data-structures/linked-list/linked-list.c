@@ -57,7 +57,6 @@ list_t* is_list_empty(list_t *list)
         printf("Linked list is null!\n");
         return NULL;
     }
-
     return list;
 }
 
@@ -92,12 +91,9 @@ int length_list(list_t *list)
     return length;
 }
 
-list_t* push_front(list_t *list, int key)
-{
-    list_t *node = NULL;
-    node = create_node();
-    if(node == NULL)
-    {
+list_t* push_front(list_t *list, int key) {
+    list_t *node = create_node();
+    if(node == NULL) {
         return NULL;
     }
 
@@ -337,8 +333,7 @@ int main()
 {
     list_t *list = create_list();
 
-    for(int i = 0; i < 10; i++)
-    {
+    for(int i = 0; i < 10; i++) {
         list = push_front(list, i);
     }
 
