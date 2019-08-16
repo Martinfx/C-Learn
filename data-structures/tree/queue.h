@@ -5,32 +5,27 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-int min(int a, int b)
-{
+int min(int a, int b) {
     return (a) < (b) ? (a) : (b);
 }
 
-int max(int a, int b)
-{
+int max(int a, int b) {
     return (a) > (b) ? (a) : (b);
 }
 
-typedef struct node
-{
+typedef struct node {
     int key;
     int height;
     struct node *left;
     struct node *right;
 } tree_t;
 
-typedef struct llist
-{
+typedef struct llist {
     struct llist *next;
     tree_t *key;
 } node_t;
 
-typedef struct queue
-{
+typedef struct queue {
     node_t *first;
     node_t *last;
     int QUEUE_MAX_SIZE;

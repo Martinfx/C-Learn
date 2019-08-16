@@ -201,10 +201,8 @@ void post_order_traversal(tree_t *tree)
 
 /*
  * Breath-first level_traversal()
- *
- *
  */
-void level_traversal(tree_t *tree)
+/*void level_traversal(tree_t *tree)
 {
     if(tree == NULL)
     {
@@ -215,11 +213,11 @@ void level_traversal(tree_t *tree)
     enqueue(q, tree);
 
     //tree_t *node = NULL;
-    /*while(!is_empty_queue(q))
+    while(!is_empty_queue(q))
     {
         //if(tree->)
-    }*/
-}
+    }
+}*/
 
 tree_t *remove_tree(tree_t *tree)
 {
@@ -234,18 +232,13 @@ tree_t *remove_tree(tree_t *tree)
     return tree;
 }
 
-int main()
-{
-    tree_t *root = NULL;
-    root = create_tree();
+int main() {
+    tree_t *root = create_tree();
     root->key = 555;
-    root = insert(root, 20);
-    root = insert(root, 1);
-    root = insert(root, 2);
-    root = insert(root, 3);
-    root = insert(root, 80);
-    root = insert(root, 50);
-    root = insert(root, 40);
+
+    for (int i = 0; i < 10; ++i) {
+        root = insert(root, rand() % 10);
+    }
 
     print_in_order(root);
 

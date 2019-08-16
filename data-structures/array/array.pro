@@ -1,5 +1,5 @@
 TEMPLATE = app
-CONFIG += console
+CONFIG += console -O2 -Wall -pendatic
 CONFIG -= app_bundle
 CONFIG -= qt
 

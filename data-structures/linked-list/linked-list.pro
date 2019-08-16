@@ -1,5 +1,5 @@
 TEMPLATE = app
-CONFIG += console -std=c11 -gdbb -Wall -pedantic
+CONFIG += console -std=c11 -O2 -Wall -pedantic
 CONFIG -= app_bundl qt
 
 SOURCES += \
