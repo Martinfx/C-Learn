@@ -1,23 +1,30 @@
-### Examples in language C/C++
+Examples in C/C++
+=========================
+
 #### Work with pointers
-  * Array 
   * Pointer
-  * Pointer to pointer
-  * Pointer to structure
-  
+  * Pointer to array
+  * Pointer to pointer (Multiple Indirection)
+  * Pointer to struct
+
 #### Data structures in language C
   * Array
   * Linked list
-  * Doubly linked list
-  * Circual linked list
-  * Queue implemented as Linked list
-  * Queue implemented as Double linked list
+  * Doubly Linked list
+  * Circular linked list
+  * Queue - implemented using a linked list
+  * Queue - implemented using a doubly list
   * Stack
   * Tree
-  
+
 #### Sort algoritms 
   * Bubble sort
   
-### For contributions 
- * Contribution are welcome !
- 
+#### Other
+  * posix spawn
+  * recursion
+  * time
+  * network - client, server
+
+#### How to Report a Bug
+  * Please you create pull request
