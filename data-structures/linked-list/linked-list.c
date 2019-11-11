@@ -34,7 +34,7 @@
  * push_front(key)        add to front
  * pop_front()            remove front item
  * push_back(key)         add to back
- * pop_back()             remove back item
+ * pop_back()             remove last item from list
  * boolean find(key)      is key in list ?
  * erase(key)             remove key from list
  * remove_list()          remove all nodes from list
@@ -42,6 +42,7 @@
  * lenght()               lenght of list
  * print_forward_list()   forward prints
  * print_backward_list()  backward prints
+ * remove_duplicate()     remove duplicites from list
  */
 
 typedef struct node {
@@ -53,7 +54,7 @@ list_t *create_node() {
   list_t *node = (list_t *)malloc(sizeof(list_t));
   if (!node) {
     debug("Allocation memory failed!\n");
-    return NULL;
+    return node;
   }
 
   return node;
@@ -63,7 +64,7 @@ list_t *create_list() {
   list_t *list = (list_t *)malloc(sizeof(list_t));
   if (!list) {
     debug("Allocation memory failed!\n");
-    return NULL;
+    return list;
   }
 
   memset(list, 0, sizeof(list_t));
@@ -110,7 +111,7 @@ unsigned int length_list(list_t *list) {
 
 list_t *pop_front(list_t *list) {
   if (!list->head) {
-    printf("Head is null!\n");
+    printf("Cannot pop from front list!\n");
     return list;
   }
 
@@ -125,14 +126,14 @@ list_t *pop_front(list_t *list) {
 
 list_t *push_front(list_t *list, unsigned int key) {
   list_t *node = create_node();
-  if (node == NULL) {
+  if (!node) {
     return NULL;
   }
 
   node->key = key;
   node->next = list->head;
 
-  if (list->head == NULL) {
+  if (!list->head) {
     list->head = node;
     list->count++;
     return list;
@@ -311,7 +312,32 @@ temp1->key);*/
   return list;
 }
 
+void sort(list_t *list) {
+  list_t *head = NULL;
+  list_t *last = NULL;
+  bool swap = false;
+
+  do {
+    swap = false;
+    head = list->head;
+
+    while (head->next != last) {
+      if (head->key > head->next->key) {
+        unsigned int temp = head->key;
+        head->key = head->next->key;
+        head->next->key = temp;
+        swap = true;
+      }
+      head = head->next;
+    }
+
+    last = head;
+
+  } while (swap);
+}
+
 void remove_duplicate(list_t *list) {
+  sort(list);
   list_t *temp = list->head;
   if (!temp) {
     debug("Cannot remove duplicite items from list");
@@ -350,13 +376,14 @@ int main() {
   printf("Count of nodes: %u \n", count_nodes(list));
   printf("Lenght list is %u items.\n", length_list(list));
 
+  list = push_front(list, 99999);
+  list = push_front(list, 99999);
   list = push_front(list, 2222);
 
   print_forward_list(list);
   printf("Lenght list is %u items.\n", length_list(list));
   list = erase(list, 4);
   print_forward_list(list);
-  print_backward_list(list);
 
   printf("Lenght list is %u items.\n", length_list(list));
 
@@ -374,7 +401,7 @@ int main() {
 }
 
 /*
-void push_to_end_without_return(list_t *node)
+void push_back(list_t *node)
 {
     list_t *temp = create_node();
     temp->next = NULL;
@@ -396,7 +423,7 @@ node->next, node->node_data);
     node->next->next = NULL;
 }
 
-void push_to_begin_pointer_to_pointer(list_t **node, int key)
+void push_front(list_t **node, int key)
 {
     list_t *temp;
     temp = create_node();
