@@ -1,10 +1,34 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <memory.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#if DEBUG
+#define debug(msg)                                                             \
+  do {                                                                         \
+    printf("[debug]: %s ,line: %i, file: %s, func: %s \n", msg, __LINE__,      \
+           __FILE__, __FUNCTION__);                                            \
+  } while (false)
+#else
+#define debug(msg)                                                             \
+  do {                                                                         \
+  } while (false)
+#endif
+
+#if DEBUG
+#define trace(msg, ...)                                                        \
+  do {                                                                         \
+    printf("[trace]: %s, line: %i, file: %s, func: %s \n", msg, __LINE__,      \
+           __FILE__, __FUNCTION__, __VA_ARGS__);                               \
+  } while (false)
+#else
+#define trace(msg, ...)                                                        \
+  do {                                                                         \
+  } while (false)
+#endif
 
 /*
  * push_front(key)        add to front
@@ -16,19 +40,19 @@
  * remove_list()          remove all nodes from list
  * count_nodes()          count of nodes
  * lenght()               lenght of list
- * print_forward_list()   print list forward
- * print_backward_list()  print list backward
+ * print_forward_list()   forward prints
+ * print_backward_list()  backward prints
  */
 
 typedef struct node {
-  int key, count;
+  unsigned int key, count;
   struct node *next, *head, *tail;
 } list_t;
 
 list_t *create_node() {
   list_t *node = (list_t *)malloc(sizeof(list_t));
-  if (node == NULL) {
-    printf("Allocation memory failed in list_t!\n");
+  if (!node) {
+    debug("Allocation memory failed!\n");
     return NULL;
   }
 
@@ -37,38 +61,36 @@ list_t *create_node() {
 
 list_t *create_list() {
   list_t *list = (list_t *)malloc(sizeof(list_t));
-  if (list == NULL) {
-    printf("Allocation memory failed for linked_list_t!\n");
+  if (!list) {
+    debug("Allocation memory failed!\n");
     return NULL;
   }
 
-  list->head = NULL;
-  list->tail = NULL;
-  list->count = 0;
+  memset(list, 0, sizeof(list_t));
+
   return list;
 }
 
 list_t *is_head_empty(list_t *list) {
-  if (list->head == NULL) {
-    printf("Head is null!\n");
-    return NULL;
+  if (!list->head) {
+    debug("Head is null!\n");
+    return list;
   }
-
   return list;
 }
 
 list_t *is_list_empty(list_t *list) {
-  if (list == NULL) {
-    printf("Linked list is null!\n");
-    return NULL;
+  if (!list) {
+    debug("List is empty!\n");
+    return list;
   }
   return list;
 }
 
-int count_nodes(list_t *list) { return list->count; }
+unsigned int count_nodes(list_t *list) { return list->count; }
 
-int length_list(list_t *list) {
-  int length = 0;
+unsigned int length_list(list_t *list) {
+  unsigned int length = 0;
 
   if (is_list_empty(list) != NULL) {
     list_t *temp = NULL;
@@ -86,7 +108,22 @@ int length_list(list_t *list) {
   return length;
 }
 
-list_t *push_front(list_t *list, int key) {
+list_t *pop_front(list_t *list) {
+  if (!list->head) {
+    printf("Head is null!\n");
+    return list;
+  }
+
+  list->count--;
+  list_t *temp = NULL;
+  temp = list->head;
+  list->head = list->head->next;
+  free(temp);
+
+  return list;
+}
+
+list_t *push_front(list_t *list, unsigned int key) {
   list_t *node = create_node();
   if (node == NULL) {
     return NULL;
@@ -108,22 +145,7 @@ list_t *push_front(list_t *list, int key) {
   return list;
 }
 
-list_t *pop_front(list_t *list) {
-  list_t *temp = NULL;
-  if (list->head == NULL) {
-    printf("Head is null!\n");
-    return list;
-  }
-
-  list->count--;
-  temp = list->head;
-  list->head = list->head->next;
-  free(temp);
-
-  return list;
-}
-
-list_t *push_back(list_t *list, int key) {
+list_t *push_back(list_t *list, unsigned int key) {
   list_t *node = create_node();
   node->key = key;
   node->next = NULL;
@@ -138,9 +160,9 @@ list_t *push_back(list_t *list, int key) {
     list_t *temp = list->head;
     while (temp->next) {
       /*printf("temp: %p, temp->next: %p, temp->key: %d \n",
-        (void*)temp,
-        (void*)temp->next,
-        temp->key);*/
+(void*)temp,
+(void*)temp->next,
+temp->key);*/
 
       temp = temp->next;
     }
@@ -164,9 +186,13 @@ list_t *pop_back(list_t *list) {
     list->tail = NULL;
   }
 
+  if (!list->head) {
+    return list;
+  }
+
   temp = list->head;
   while (temp->next->next != NULL) {
-    printf("List item: current is %p; next is %p; data is %d\n", (void *)temp,
+    printf("List item: current is %p; next is %p; data is %u\n", (void *)temp,
            (void *)temp->next, temp->key);
 
     temp = temp->next;
@@ -183,17 +209,19 @@ list_t *pop_back(list_t *list) {
 void print_forward_list(list_t *list) {
   if (is_list_empty(list) != NULL) {
     list_t *temp = list->head;
-    if (list->head == NULL) {
-      return;
-    }
 
-    printf("------------------------------------------------\n");
+    if (!list->head) {
+      debug("List->head is null");
+    } else {
 
-    while (temp != NULL) {
-      printf("List item: current is %p; next is %p; data is %d\n", (void *)temp,
-             (void *)temp->next, temp->key);
+      printf("------------------------------------------------\n");
 
-      temp = temp->next;
+      while (temp != NULL) {
+        printf("List item: current is %p; next is %p; data is %u\n",
+               (void *)temp, (void *)temp->next, temp->key);
+
+        temp = temp->next;
+      }
     }
   }
 }
@@ -202,30 +230,31 @@ void print_backward_list(list_t *list) {
   list_t *current = list->head;
   list_t *last = NULL;
 
-  if (list->head == NULL) {
-    return;
-  }
+  if (!list->head) {
+    debug("List->head is null");
+  } else {
 
-  printf("------------------------------------------------\n");
+    printf("------------------------------------------------\n");
 
-  while (last != list->head) {
-    while (current->next != last) {
-      current = current->next;
+    while (last != list->head) {
+      while (current->next != last) {
+        current = current->next;
+      }
+
+      last = current;
+
+      printf("List item: current is %p; next is %p; data is %u\n", (void *)last,
+             (void *)last->next, last->key);
+
+      current = list->head;
     }
-
-    last = current;
-
-    printf("List item: current is %p; next is %p; data is %d\n", (void *)last,
-           (void *)last->next, last->key);
-
-    current = list->head;
   }
 }
 
 list_t *remove_list(list_t *list) {
   if (is_list_empty(list) != NULL) {
     list_t *temp = list->head;
-    list_t *next = list->head;
+    list_t *next = NULL;
 
     while (temp != NULL) {
       next = temp->next;
@@ -242,75 +271,102 @@ list_t *remove_list(list_t *list) {
   return list;
 }
 
-bool find(list_t *list, int key) {
+bool find(list_t *list, unsigned int key) {
   list_t *temp = list->head;
 
   while (temp != NULL) {
     if (temp->key == key) {
-      printf("Found key: %d\n", temp->key);
+      printf("Found key: %u\n", temp->key);
       return true;
     }
 
     temp = temp->next;
   }
 
-  printf("Cannot found key: %d \n", key);
+  printf("Cannot found key: %u \n", key);
   return false;
 }
 
-list_t *erase(list_t *list, int pos) {
+list_t *erase(list_t *list, unsigned int pos) {
   list_t *temp1 = list->head;
   list_t *temp2 = NULL;
 
   if (pos < length_list(list)) {
 
-    for (int i = 0; i < pos - 1; ++i) {
-      /*printf("A im on postion: %d \n", i);
-  printf("Position: current is %p; next is %p; data is %d\n",
-         (void*)temp1,
-         (void*)temp1->next,
-         temp1->key);*/
+    for (unsigned int i = 0; i < pos - 1; ++i) {
+      /*printf("A im on postion: %u \n", i);
+printf("Position: current is %p; next is %p; data is %u\n",
+(void*)temp1,
+(void*)temp1->next,
+temp1->key);*/
 
       temp1 = temp1->next;
     }
 
     temp2 = temp1->next;
     temp1->next = temp2->next;
-    printf("Remove temp2->key: %d \n", temp2->key);
+    printf("Remove temp2->key: %u \n", temp2->key);
     free(temp2);
   }
   return list;
 }
 
+void remove_duplicate(list_t *list) {
+  list_t *temp = list->head;
+  if (!temp) {
+    debug("Cannot remove duplicite items from list");
+  } else {
+
+    while (temp->next != NULL) {
+      if (temp->key == temp->next->key) {
+        list_t *next = temp->next->next;
+        free(temp->next);
+        temp->next = next;
+        debug("Found duplicate item in list.");
+      } else {
+        temp = temp->next;
+        debug("Not found duplicate item.");
+      }
+    }
+  }
+}
+
 int main() {
   list_t *list = create_list();
 
-  for (int i = 0; i < 10; i++) {
-    list = push_front(list, i);
+  for (unsigned int i = 0; i < 10; i++) {
+    list = push_front(list, rand() % 100);
   }
 
   list = pop_back(list);
-  printf("Lenght list is %d items.\n", length_list(list));
+  printf("Lenght list is %u items.\n", length_list(list));
 
-  find(list, 555);
+  find(list, 666);
 
   print_forward_list(list);
   list = pop_front(list);
   print_forward_list(list);
 
-  printf("Count of nodes: %d \n", count_nodes(list));
-  printf("Lenght list is %d items.\n", length_list(list));
+  printf("Count of nodes: %u \n", count_nodes(list));
+  printf("Lenght list is %u items.\n", length_list(list));
 
   list = push_front(list, 2222);
 
   print_forward_list(list);
-  printf("Lenght list is %d items.\n", length_list(list));
+  printf("Lenght list is %u items.\n", length_list(list));
   list = erase(list, 4);
   print_forward_list(list);
-
   print_backward_list(list);
 
-  printf("Lenght list is %d items.\n", length_list(list));
+  printf("Lenght list is %u items.\n", length_list(list));
+
+  list = push_front(list, 99999);
+  list = push_front(list, 99999);
+  list = push_front(list, 99999);
+
+  remove_duplicate(list);
+  print_forward_list(list);
+
   list = remove_list(list);
   print_forward_list(list);
 
@@ -331,7 +387,7 @@ void push_to_end_without_return(list_t *node)
 
     while(node->next)
     {
-        //printf("node: %d, node->next: %d, node->node_data: %d \n", node,
+        //printf("node: %u, node->next: %u, node->node_data: %u \n", node,
 node->next, node->node_data);
         node = node->next;
     }
@@ -391,7 +447,7 @@ list_t *push_to_position(list_t *list, int key, int position)
 
         while(last != NULL)
         {
-            printf("Postion: %d \n", last->key);
+            printf("Postion: %u \n", last->key);
             if(p == position - 1)
             {
                 node->next = last->next;
