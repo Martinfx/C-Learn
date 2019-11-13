@@ -28,9 +28,11 @@ int main()  {
     printf("Length of list is %u items.\n", length_list(l));
 
     remove_duplicate(l);
+    print_backward_list(l);
+    printf("Length of list is %u items.\n", length_list(l));
+    l = erase(l, 1);
+
     print_forward_list(l);
-
     l = clear_list(l);
-
     print_forward_list(l);
 }

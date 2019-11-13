@@ -7,26 +7,26 @@
 
 #if DEBUG
 #define debug(msg)                                                             \
-  do {                                                                         \
+    do {                                                                         \
     printf("[debug]: %s ,line: %i, file: %s, func: %s \n", msg, __LINE__,      \
-           __FILE__, __FUNCTION__);                                            \
-  } while (false)
+    __FILE__, __FUNCTION__);                                            \
+    } while (false)
 #else
 #define debug(msg)                                                          \
-  do {                                                                         \
-  } while (false)
+    do {                                                                         \
+    } while (false)
 #endif
 
 #if DEBUG
 #define trace(msg, ...)                                                        \
-  do {                                                                         \
+    do {                                                                         \
     printf("[trace]: %s, line: %i, file: %s, func: %s \n", msg, __LINE__,      \
-           __FILE__, __FUNCTION__, __VA_ARGS__);                               \
-  } while (false)
+    __FILE__, __FUNCTION__, __VA_ARGS__);                               \
+    } while (false)
 #else
 #define trace(msg, ...)                                                        \
-  do {                                                                         \
-  } while (false)
+    do {                                                                         \
+    } while (false)
 #endif
 
 /*
@@ -34,8 +34,8 @@
  * pop_front(list_t *l)            remove front item
  * push_back(list_t *l, key)       add to back
  * pop_back(list_t *l)             remove last item from list
- * boolean find(key)               is key in list ?
- * erase(key)                      remove key from list
+ * find(list_t *l, key)            is key in list ?
+ * erase(list_t *l, pos)           remove key from list
  * remove_list(list_t *l)          remove all nodes from list
  * length_list(list_t *l)          length of list
  * print_forward_list(list_t *l)   forward prints
@@ -50,23 +50,21 @@ typedef struct node {
 } node_t;
 
 typedef struct list {
-    struct node *head, *tail;
+    struct node *head;
+    struct node *tail;
 } list_t;
 
 list_t *create() {
-    list_t *list = (list_t*)malloc(sizeof(list_t));
+    list_t *list = (list_t*)calloc(2, sizeof(list_t));
     if(!list) {
         debug("Allocation memory failed!\n");
         exit(0);
     }
-
-    memset(list, 0, sizeof (list_t));
     return list;
 }
 
 node_t *node() {
-    node_t *node = (node_t*)malloc(sizeof(node_t));
-    memset(node, 0, sizeof (node_t));
+    node_t *node = (node_t*)calloc(2, sizeof(node_t));
     return node;
 }
 
@@ -105,7 +103,7 @@ unsigned int length_list(list_t *list) {
         if(t != NULL) {
             node_t *curr = NULL;
             for (curr = t; curr != NULL; curr = curr->next) {
-              len += 1;
+                len += 1;
             }
             return len;
         }
@@ -191,46 +189,45 @@ list_t *pop_back_list(list_t *list) {
     return list;
 }
 
-/*heap-use-after-free
-list_t *erase_list(list_t *list, unsigned int pos) {
+list_t *erase(list_t *list, unsigned int pos) {
     if(is_list_null(list) && is_head_null(list)) {
         node_t *temp1 = list->head;
         node_t *temp2 = NULL;
 
-        if (pos >= 1 && pos <= lenght_list(list)) {
+        if (pos >= 1 && pos <= length_list(list)) {
 
             for (unsigned int i = 0; i < pos - 1; ++i) {
-                printf("A im on postion: %u \n", i);
-printf("Position: current is %p; next is %p; data is %u\n",
-(void*)temp1,
-(void*)temp1->next,
-temp1->key);
+                printf("Pos: %u \n", i);
+                printf("Pos: curr is %p; next is %p; data is %u\n",
+                       (void*)temp1,
+                       (void*)temp1->next,
+                       temp1->key);
 
                 temp1 = temp1->next;
             }
 
             temp2 = temp1->next;
             temp1->next = temp2->next;
-            printf("Remove temp2->key: %u \n", temp2->key);
+            printf("Erase temp2->key: %u \n", temp2->key);
             free(temp2);
         } else {
             debug("Positon is out of range list");
         }
     }
     return list;
-}*/
+}
 
 void print_forward_list(list_t *list) {
     if(is_list_null(list) && is_head_null(list)) {
-            node_t *node = list->head;
-            printf("------------------------------------------\n");
-            while(node != NULL) {
-                printf("List item: current is %p; next is %p; data is %u\n",
-                       (void *)node, (void *)node->next, node->key);
+        node_t *node = list->head;
+        printf("------------------------------------------------\n");
+        while(node != NULL) {
+            printf("List item: current is %p; next is %p; data is %u\n",
+                   (void *)node, (void *)node->next, node->key);
 
-                node = node->next;
-            }
-     }
+            node = node->next;
+        }
+    }
 }
 
 void print_backward_list(list_t *list) {
@@ -271,7 +268,7 @@ list_t *clear_list(list_t *list) {
         return list;
     }
 
-   return list;
+    return list;
 }
 
 void sort_list(list_t *list) {

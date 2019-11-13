@@ -199,26 +199,6 @@ void post_order_traversal(tree_t *tree)
     printf("PostOrderTraversal in tree->key : %d \n", tree->key);
 }
 
-/*
- * Breath-first level_traversal()
- */
-/*void level_traversal(tree_t *tree)
-{
-    if(tree == NULL)
-    {
-        return;
-    }
-
-    queue_t *q = create_queue();
-    enqueue(q, tree);
-
-    //tree_t *node = NULL;
-    while(!is_empty_queue(q))
-    {
-        //if(tree->)
-    }
-}*/
-
 tree_t *remove_tree(tree_t *tree)
 {
     if(tree)
