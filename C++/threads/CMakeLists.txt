@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.0)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_C_FLAGS "-pthread")
+#set(CMAKE_C_FLAGS "-O0 -g -Wall -ggdb") #("-fsanitize=address -fno-omit-frame-pointer")
+project(thread)
+add_executable(${PROJECT_NAME} "main.cpp")
+target_link_libraries(${PROJECT_NAME} -lpthread)

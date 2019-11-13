@@ -1,3 +1,4 @@
+#pragma once
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -60,7 +61,7 @@ int print_length_list(d_list_t *head)
     return length;
 }
 
-void print_forward_list(d_list_t *node)
+void print_forward_dllist(d_list_t *node)
 {
     d_list_t *temp = node;
 
@@ -88,7 +89,7 @@ void print_forward_list(d_list_t *node)
 }
 
 
-void print_backward_list(d_list_t *node)
+void print_backward_dllist(d_list_t *node)
 {
     d_list_t *temp = node;
 
@@ -121,7 +122,7 @@ void print_backward_list(d_list_t *node)
     }
 }
 
-void push_back(d_list_t *head, int key)
+void push_back_dllist(d_list_t *head, int key)
 {
     d_list_t *temp = head;
     d_list_t *node = create_node();
@@ -154,7 +155,7 @@ void push_to_begin(d_list_t **head)
     (*head) = node;
 }
 
-void remove_list(d_list_t *node)
+void remove_dllist(d_list_t *node)
 {
     d_list_t *temp = NULL;
 
@@ -168,40 +169,10 @@ void remove_list(d_list_t *node)
     printf("List removed.\n");
 }
 
-void pop(d_list_t **node)
+void pop_dllist(d_list_t **node)
 {
     d_list_t *temp = NULL;
     temp = (*node)->next;
     free((*node));
     (*node) = temp;
-}
-
-int main()
-{
-    d_list_t *head_list= NULL;
-    head_list = create_list();
-
-    for(int i = 0; i < 10; i++)
-    {
-        push_back(head_list, i);
-    }
-
-    print_forward_list(head_list);
-    print_backward_list(head_list);
-
-    push_back(head_list, 2000);
-    printf("Count of node in list : %d \n",
-           print_length_list(head_list));
-
-    push_to_begin(&head_list);
-    printf("Count of node in list : %d \n",
-           print_length_list(head_list));
-
-    pop(&head_list);
-    printf("Count of node in list : %d \n",
-           print_length_list(head_list));
-
-    remove_list(head_list);
-
-    return 0;
 }

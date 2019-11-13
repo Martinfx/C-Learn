@@ -127,7 +127,7 @@ void find(list_t *list, unsigned int key) {
     }
 }
 
-list_t *push_front(list_t *list, unsigned int key) {
+list_t *push_front_list(list_t *list, unsigned int key) {
     if(is_list_null(list)) {
         node_t *n = node();
         n->next = NULL;
@@ -147,7 +147,7 @@ list_t *push_front(list_t *list, unsigned int key) {
     return list;
 }
 
-list_t *pop_front(list_t *list) {
+list_t *pop_front_list(list_t *list) {
     if(is_list_null(list) && is_head_null(list)) {
         node_t *temp = NULL;
         temp = list->head;
@@ -158,7 +158,7 @@ list_t *pop_front(list_t *list) {
     return list;
 }
 
-list_t *push_back(list_t *list, unsigned int key) {
+list_t *push_back_list(list_t *list, unsigned int key) {
     if(is_list_null(list)) {
         node_t *n = node();
         n->key = key;
@@ -176,7 +176,7 @@ list_t *push_back(list_t *list, unsigned int key) {
     return list;
 }
 
-list_t *pop_back(list_t *list) {
+list_t *pop_back_list(list_t *list) {
     if(is_list_null(list) && is_head_null(list)) {
 
         node_t *t = list->head;
@@ -192,7 +192,7 @@ list_t *pop_back(list_t *list) {
 }
 
 /*heap-use-after-free
-list_t *erase(list_t *list, unsigned int pos) {
+list_t *erase_list(list_t *list, unsigned int pos) {
     if(is_list_null(list) && is_head_null(list)) {
         node_t *temp1 = list->head;
         node_t *temp2 = NULL;
@@ -274,7 +274,7 @@ list_t *clear_list(list_t *list) {
    return list;
 }
 
-void sort(list_t *list) {
+void sort_list(list_t *list) {
     if(is_list_null(list)) {
 
         node_t *head = NULL;
@@ -302,7 +302,7 @@ void sort(list_t *list) {
 }
 
 void remove_duplicate(list_t *list) {
-    sort(list);
+    sort_list(list);
 
     if(is_head_null(list)) {
         node_t *t = list->head;
@@ -321,7 +321,7 @@ void remove_duplicate(list_t *list) {
     }
 }
 
-int main() {
+/*int main() {
     list_t *l = create();
 
     for(unsigned int i = 0; i < 10; i++) {
@@ -356,7 +356,7 @@ int main() {
     print_forward_list(l);
 
     return 0;
-}
+}*/
 
 /*
 void push_back(list_t *node)
