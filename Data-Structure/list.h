@@ -321,68 +321,8 @@ void remove_duplicate(list_t *list) {
     }
 }
 
-/*int main() {
-    list_t *l = create();
-
-    for(unsigned int i = 0; i < 10; i++) {
-        l = push_front(l, 12);
-    }
-
-    for (unsigned int i = 0; i < 5; i++) {
-        l = pop_front(l);
-    }
-
-    find(l, 10);
-    print_backward_list(l);
-    printf("Length of list is %u items.\n", length_list(l));
-    print_forward_list(l);
-
-    for (unsigned int i = 0; i < 10; i++) {
-        l = push_back(l, rand() % 100);
-    }
-
-    print_forward_list(l);
-    l = pop_back(l);
-    l = pop_back(l);
-    l = pop_back(l);
-    l = pop_back(l);
-    printf("Length of list is %u items.\n", length_list(l));
-
-    remove_duplicate(l);
-    print_forward_list(l);
-
-    l = clear_list(l);
-
-    print_forward_list(l);
-
-    return 0;
-}*/
-
 /*
-void push_back(list_t *node)
-{
-    list_t *temp = create_node();
-    temp->next = NULL;
-
-    // This is good idea, but we cannot return value
-    if(node == NULL)
-    {
-        node = create_node();
-    }
-
-    while(node->next)
-    {
-        //printf("node: %u, node->next: %u, node->node_data: %u \n", node,
-node->next, node->node_data);
-        node = node->next;
-    }
-
-    node->next = temp;
-    node->next->next = NULL;
-}
-
-void push_front(list_t **node, int key)
-{
+void push_front(list_t **node, int key) {
     list_t *temp;
     temp = create_node();
     temp->key = key;
@@ -390,8 +330,7 @@ void push_front(list_t **node, int key)
     *node = temp;
 }
 
-int pop(list_t **node)
-{
+int pop(list_t **node) {
     int data = 0;
     list_t *temp = NULL;
 
@@ -408,8 +347,7 @@ int pop(list_t **node)
     return data;
 }
 
-list_t *push_to_position(list_t *list, int key, int position)
-{
+list_t *push_to_pos(list_t *list, int key, int position) {
     list_t *node = NULL;
     node = create_node();
     node->key = key;
