@@ -1,12 +1,24 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
+project(backtrace)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_C_FLAGS "-O0 -g -rdynamic -lexecinfo")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
 
-if (CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
-  list(APPEND system_libs execinfo)
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lunwind -rdynamic -lexecinfo")
+
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Free|Net|Open)BSD")
+  #set(CMAKE_REQUIRED_INCLUDES "/usr/local/include /usr/include")
+  #set(CMAKE_REQUIRED_LIBRARIES "/usr/local/lib")
+
+  find_path(LIBUNWIND_INCLUDE_DIR "libunwind.h" PATHS /usr/local/include/)
+  find_library(LIBUNWIND_LIBRARY NAME "unwind" PATHS /usr/local/lib )
+
+  list(APPEND CMAKE_REQUIRED_INCLUDES ${LIBUNWIND_INCLUDE_DIR})
+  list(APPEND CMAKE_REQUIRED_LIBRARIES ${LIBUNWIND_LIBRARY})
+
+  message(STATUS ${LIBUNWIND_INCLUDE_DIR})
+  message(STATUS ${LIBUNWIND_LIBRARY})
 endif()
 
-project(backtrace)
 add_executable(${PROJECT_NAME} "backtrace.c")
