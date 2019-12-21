@@ -4,30 +4,33 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdarg.h>
 
 #if DEBUG
 #define debug(msg)                                                             \
-    do {                                                                         \
+    do {                                                                       \
     printf("[debug]: %s ,line: %i, file: %s, func: %s \n", msg, __LINE__,      \
-    __FILE__, __FUNCTION__);                                            \
+    __FILE__, __FUNCTION__);                                                   \
     } while (false)
 #else
-#define debug(msg)                                                          \
-    do {                                                                         \
+#define debug(msg)                                                             \
+    do {                                                                       \
     } while (false)
 #endif
 
 #if DEBUG
 #define trace(msg, ...)                                                        \
-    do {                                                                         \
-    printf("[trace]: %s, line: %i, file: %s, func: %s \n", msg, __LINE__,      \
-    __FILE__, __FUNCTION__, __VA_ARGS__);                               \
+    do {                                                                       \
+    printf("[trace]: (%i)::%s::%s::%s " msg, __LINE__, __FILE__, __FUNCTION__,     \
+    __VA_ARGS__);                                                              \
     } while (false)
 #else
 #define trace(msg, ...)                                                        \
-    do {                                                                         \
+    do {                                                                       \
     } while (false)
 #endif
+
+
 
 /*
  * push_front(list_t *l, key)      add to front
@@ -65,6 +68,10 @@ list_t *create() {
 
 node_t *node() {
     node_t *node = (node_t*)calloc(2, sizeof(node_t));
+    if(!node) {
+        debug("Allocation memory failed!\n");
+        exit(0);
+    }
     return node;
 }
 
@@ -317,72 +324,3 @@ void remove_duplicate(list_t *list) {
         }
     }
 }
-
-/*
-void push_front(list_t **node, int key) {
-    list_t *temp;
-    temp = create_node();
-    temp->key = key;
-    temp->next = *node;
-    *node = temp;
-}
-
-int pop(list_t **node) {
-    int data = 0;
-    list_t *temp = NULL;
-
-    if(*node == NULL)
-    {
-        return -1;
-    }
-
-    temp = (*node)->next;
-    data = (*node)->key;
-    free(*node);
-    *node = temp;
-
-    return data;
-}
-
-list_t *push_to_pos(list_t *list, int key, int position) {
-    list_t *node = NULL;
-    node = create_node();
-    node->key = key;
-
-    if(list->head == NULL)
-    {
-        list->head = node;
-        return list;
-    }
-    else
-    {
-        list_t *last = list->head;
-        int p = 0;
-
-        if(position == 0)
-        {
-            node->next = list->head;
-            return list;
-        }
-
-        while(last != NULL)
-        {
-            printf("Postion: %u \n", last->key);
-            if(p == position - 1)
-            {
-                node->next = last->next;
-                last->next = node;
-            }
-            else
-            {
-                last = last->next;
-            }
-
-            p = p + 1;
-        }
-
-        return list;
-    }
-}
-
-*/

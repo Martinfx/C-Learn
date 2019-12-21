@@ -1,7 +1,7 @@
 #include "list.h"
 
-int main()  {
-     list_t *l = create();
+int main(){
+    list_t *l = create();
 
     for(unsigned int i = 0; i < 10; i++) {
         l = push_front(l, 12);
@@ -21,6 +21,7 @@ int main()  {
     }
 
     print_forward_list(l);
+
     l = pop_back(l);
     l = pop_back(l);
     l = pop_back(l);
@@ -29,6 +30,7 @@ int main()  {
 
     remove_duplicate(l);
     print_backward_list(l);
+
     printf("Length of list is %u items.\n", length_list(l));
     l = erase(l, 1);
 

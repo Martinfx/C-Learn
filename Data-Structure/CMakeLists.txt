@@ -9,3 +9,5 @@ add_executable(${PROJECT_NAME} test_list.c)
 project(test_ddlist)
 add_executable(${PROJECT_NAME} test_ddlist.c)
 
+#project(test_tests)
+#add_executable(${PROJECT_NAME} test_tests.c)
