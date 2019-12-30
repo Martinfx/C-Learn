@@ -25,7 +25,7 @@
 typedef struct node {
     uint32_t key;
     struct node *next;
-} node_t;
+} node_dlist_t;
 
 typedef struct list {
     struct node *head;
@@ -41,8 +41,8 @@ list_t *create() {
     return list;
 }
 
-node_t *node() {
-    node_t *node = (node_t*)calloc(2, sizeof(node_t));
+node_dlist_t *node() {
+    node_dlist_t *node = (node_dlist_t*)calloc(2, sizeof(node_dlist_t));
     if(!node) {
         debug("Allocation memory failed!\n");
         exit(0);
@@ -80,10 +80,10 @@ list_t *is_tail_null(list_t *list) {
 uint32_t length_list(list_t *list) {
     uint32_t len = 0;
     if(is_list_null(list)) {
-        node_t *t = list->head;
+        node_dlist_t *t = list->head;
 
         if(t != NULL) {
-            node_t *curr = NULL;
+            node_dlist_t *curr = NULL;
             for (curr = t; curr != NULL; curr = curr->next) {
                 len += 1;
             }
@@ -95,7 +95,7 @@ uint32_t length_list(list_t *list) {
 
 void find(list_t *list, uint32_t key) {
     if(is_list_null(list) && is_head_null(list)) {
-        node_t *t = list->head;
+        node_dlist_t *t = list->head;
         while (t != NULL) {
             if(t->key == key) {
                 printf("Found key: %u\n", t->key);
@@ -109,7 +109,7 @@ void find(list_t *list, uint32_t key) {
 
 list_t *push_front(list_t *list, uint32_t key) {
     if(is_list_null(list)) {
-        node_t *n = node();
+        node_dlist_t *n = node();
         n->next = NULL;
         n->key = key;
 
@@ -129,7 +129,7 @@ list_t *push_front(list_t *list, uint32_t key) {
 
 list_t *pop_front(list_t *list) {
     if(is_list_null(list) && is_head_null(list)) {
-        node_t *temp = NULL;
+        node_dlist_t *temp = NULL;
         temp = list->head;
         list->head = list->head->next;
         free(temp);
@@ -140,7 +140,7 @@ list_t *pop_front(list_t *list) {
 
 list_t *push_back(list_t *list, uint32_t key) {
     if(is_list_null(list)) {
-        node_t *n = node();
+        node_dlist_t *n = node();
         n->key = key;
         n->next = NULL;
 
@@ -158,7 +158,7 @@ list_t *push_back(list_t *list, uint32_t key) {
 
 list_t *pop_back(list_t *list) {
     if(is_list_null(list) && is_head_null(list)) {
-        node_t *t = list->head;
+        node_dlist_t *t = list->head;
         while (t->next->next != NULL) {
             t = t->next;
         }
@@ -172,8 +172,8 @@ list_t *pop_back(list_t *list) {
 
 list_t *erase(list_t *list, uint32_t pos) {
     if(is_list_null(list) && is_head_null(list)) {
-        node_t *temp1 = list->head;
-        node_t *temp2 = NULL;
+        node_dlist_t *temp1 = list->head;
+        node_dlist_t *temp2 = NULL;
 
         if (pos >= 1 && pos <= length_list(list)) {
 
@@ -200,7 +200,7 @@ list_t *erase(list_t *list, uint32_t pos) {
 
 void print_forward_list(list_t *list) {
     if(is_list_null(list) && is_head_null(list)) {
-        node_t *node = list->head;
+        node_dlist_t *node = list->head;
         printf("------------------------------------------------\n");
         while(node != NULL) {
             printf("List item: current is %p; next is %p; data is %u\n",
@@ -213,8 +213,8 @@ void print_forward_list(list_t *list) {
 
 void print_backward_list(list_t *list) {
     if(is_list_null(list)) {
-        node_t *curr = list->tail;
-        node_t *last = NULL;
+        node_dlist_t *curr = list->tail;
+        node_dlist_t *last = NULL;
 
         if(is_head_null(list)) {
             printf("------------------------------------------------\n");
@@ -235,8 +235,8 @@ void print_backward_list(list_t *list) {
 
 list_t *clear_list(list_t *list) {
     if(is_list_null(list)) {
-        node_t *temp = list->head;
-        node_t *next = NULL;
+        node_dlist_t *temp = list->head;
+        node_dlist_t *next = NULL;
 
         while (temp != NULL) {
             next = temp->next;
@@ -255,8 +255,8 @@ list_t *clear_list(list_t *list) {
 void sort_list(list_t *list) {
     if(is_list_null(list)) {
 
-        node_t *head = NULL;
-        node_t *last = NULL;
+        node_dlist_t *head = NULL;
+        node_dlist_t *last = NULL;
         bool swap = false;
 
         do {
@@ -281,11 +281,11 @@ void remove_duplicate(list_t *list) {
     sort_list(list);
 
     if(is_head_null(list)) {
-        node_t *t = list->head;
+        node_dlist_t *t = list->head;
 
         while (t->next != NULL) {
             if (t->key == t->next->key) {
-                node_t *n = t->next->next;
+                node_dlist_t *n = t->next->next;
                 free(t->next);
                 t->next = n;
                 debug("Found duplicate item in list.");
