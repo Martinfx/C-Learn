@@ -1,13 +1,13 @@
 #include "vector.h"
 
 int main() {
-    vector_t *v = create();
+    vec_t *vec = vec_create();
 
     for (uint32_t i = 0; i < 20; i++) {
-        v = push_back(v, rand() % 100);
+        vec = vec_push_back(vec, rand() % 100);
     }
 
-    destroy(v);
+    vec_destroy(vec);
 
     return 0;
 }

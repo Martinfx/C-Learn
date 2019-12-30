@@ -8,10 +8,10 @@ typedef struct vector {
     uint32_t item;
     uint32_t size;
     uint32_t capacity;
-} vector_t;
+} vec_t;
 
-vector_t *create() {
-    vector_t *v = (vector_t*)malloc(10 * sizeof (vector_t));
+vec_t *vec_create() {
+    vec_t *v = (vec_t*)malloc(10 * sizeof (vec_t));
     if(!v) {
         printf("Allocation memory failed!");
         exit(0);
@@ -20,11 +20,10 @@ vector_t *create() {
     v->capacity = 10;
     v->size = 0;
     v->item = 0;
-
     return v;
 }
 
-vector_t *is_vector_null(vector_t *vec) {
+vec_t *is_vector_null(vec_t *vec) {
     if(!vec) {
         printf("Vector (vec*) is NULL!");
         return vec;
@@ -32,11 +31,27 @@ vector_t *is_vector_null(vector_t *vec) {
     return vec;
 }
 
-uint32_t get_index(vector_t *vec, uint32_t index) {
+uint32_t vec_capacity(vec_t *vec) {
+    if(is_vector_null(vec)) {
+        printf("vector is null!");
+        exit(0);
+    }
+    return vec->capacity;
+}
+
+uint32_t vec_size(vec_t *vec) {
+    if(!vec) {
+        printf("vector is null!");
+        exit(0);
+    }
+    return vec->size;
+}
+
+uint32_t vec_get_index(vec_t *vec, uint32_t index) {
     uint32_t out = 0;
     if(is_vector_null(vec)) {
         if(index < 0 || index >= vec->size) {
-            printf("index is out of range! \n");
+            printf("Index is out of range! \n");
             return out;
         }
         return vec[vec->size].item;
@@ -44,13 +59,14 @@ uint32_t get_index(vector_t *vec, uint32_t index) {
     return out;
 }
 
-vector_t *push_back(vector_t *vec, uint32_t item) {
+vec_t *vec_push_back(vec_t *vec, uint32_t item) {
     if(is_vector_null(vec)) {
         if(vec->size == vec->capacity) {
 
-            void *ptr = realloc(vec, sizeof (vector_t) * vec->capacity * 2);
+            void *ptr = realloc(vec, sizeof (vec_t) * vec->capacity * 2);
             if(!ptr) {
                 printf("debug: Cannot reallocate memory! \n");
+                exit(0);
             }
 
             vec = ptr;
@@ -64,7 +80,7 @@ vector_t *push_back(vector_t *vec, uint32_t item) {
         }
 
         vec[vec->size].item = item;
-        printf("debug: v[%i].item \n", vec->size);
+        printf("debug: v[%i].item, \n", vec->size);
         vec->size = vec->size + 1;
         return vec;
     }
@@ -72,24 +88,8 @@ vector_t *push_back(vector_t *vec, uint32_t item) {
     return vec;
 }
 
-uint32_t capacity(vector_t *v) {
-    if(!v) {
-        printf("vector is null!");
-        exit(0);
-    }
-    return v->capacity;
-}
-
-uint32_t size(vector_t *v) {
-    if(!v) {
-        printf("vector is null!");
-        exit(0);
-    }
-    return v->size;
-}
-
-void destroy(vector_t *v) {
-    if(v) {
-        free(v);
+void vec_destroy(vec_t *vec) {
+    if(vec) {
+        free(vec);
     }
 }
