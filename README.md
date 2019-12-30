@@ -1,5 +1,5 @@
-Examples in C/C++
-=========================
+Fundamentals of C/C++ structure
+===============================
 
 #### Work with pointers
   * Pointer
@@ -9,6 +9,7 @@ Examples in C/C++
 
 #### Data structures in language C
   * Array
+  * Vector
   * Linked list
   * Doubly Linked list
   * Circular linked list
@@ -19,12 +20,11 @@ Examples in C/C++
 
 #### Sort algoritms 
   * Bubble sort
+  * Insert sort
   
 #### Other
-  * posix spawn
-  * recursion
-  * time
-  * network - client, server
+  * Posix spawn
+  * Recursion
+  * Time
+  * Network - client, server
 
-#### How to Report a Bug
-  * Please you create pull request
