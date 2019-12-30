@@ -93,3 +93,55 @@ void vec_destroy(vec_t *vec) {
         free(vec);
     }
 }
+
+
+//////////////////////////////////////////////
+
+#define VEC_GENERIC(T)                                                         \
+  typedef struct T##_vec {                                                     \
+    T *arr;                                                                    \
+    size_t capacity;                                                           \
+    size_t size;                                                               \
+  } T##_vec;
+
+#define VEC_INIT(T)                                                            \
+  void T##_vector_init(T##_vector *vec) {                                      \
+    const size_t capacity = 10;                                                \
+    vec->arr = calloc(capacity, sizeof(T) * vec->capacity);                    \
+    vec->capacity = capacity;                                                  \
+    vec->size = 0;                                                             \
+  }
+
+typedef struct vec {
+    uint32_t size;
+    uint32_t capacity;
+    uint32_t *arr;
+} vec2_t;
+
+void vec_init(vec2_t *vec) {
+    const size_t capacity = 10;
+    vec->arr = calloc(capacity, sizeof(uint32_t) * capacity);
+    vec->capacity = capacity;
+    vec->size = 0;
+}
+
+void vec_set(vec2_t *vec, uint32_t index, uint32_t key) {
+    if(index < 0 || index >= vec->size) {
+        printf("Index is out of range! \n");
+        if(vec->arr) {
+            free(vec->arr);
+        }
+    }
+    vec->arr[index] = key;
+}
+
+void vec_pushback(vec2_t *vec, uint32_t key) {
+    vec->arr[vec->size] = key;
+    vec->size = vec->size + 1;
+}
+
+void vec_print(vec2_t *vec) {
+    for (uint32_t i = 0; i < vec->size; i++) {
+        printf("%i \n", vec->arr[i]);
+    }
+}
