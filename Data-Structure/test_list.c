@@ -3,11 +3,11 @@
 int main(){
     list_t *l = create();
 
-    for(unsigned int i = 0; i < 10; i++) {
+    for(uint32_t i = 0; i < 10; i++) {
         l = push_front(l, 12);
     }
 
-    for (unsigned int i = 0; i < 5; i++) {
+    for (uint32_t i = 0; i < 5; i++) {
         l = pop_front(l);
     }
 
@@ -16,7 +16,7 @@ int main(){
     printf("Length of list is %u items.\n", length_list(l));
     print_forward_list(l);
 
-    for (unsigned int i = 0; i < 10; i++) {
+    for (uint32_t i = 0; i < 10; i++) {
         l = push_back(l, rand() % 100);
     }
 

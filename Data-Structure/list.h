@@ -1,36 +1,11 @@
 #pragma once
 
 #include <stdio.h>
-#include <string.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <stdarg.h>
 
-#if DEBUG
-#define debug(msg)                                                             \
-    do {                                                                       \
-    printf("[debug]: %s ,line: %i, file: %s, func: %s \n", msg, __LINE__,      \
-    __FILE__, __FUNCTION__);                                                   \
-    } while (false)
-#else
-#define debug(msg)                                                             \
-    do {                                                                       \
-    } while (false)
-#endif
-
-#if DEBUG
-#define trace(msg, ...)                                                        \
-    do {                                                                       \
-    printf("[trace]: (%i)::%s::%s::%s " msg, __LINE__, __FILE__, __FUNCTION__,     \
-    __VA_ARGS__);                                                              \
-    } while (false)
-#else
-#define trace(msg, ...)                                                        \
-    do {                                                                       \
-    } while (false)
-#endif
-
-
+#include "debug.h"
 
 /*
  * push_front(list_t *l, key)      add to front
@@ -48,7 +23,7 @@
  */
 
 typedef struct node {
-    unsigned int key;
+    uint32_t key;
     struct node *next;
 } node_t;
 
@@ -102,8 +77,8 @@ list_t *is_tail_null(list_t *list) {
     }
 }
 
-unsigned int length_list(list_t *list) {
-    unsigned int len = 0;
+uint32_t length_list(list_t *list) {
+    uint32_t len = 0;
     if(is_list_null(list)) {
         node_t *t = list->head;
 
@@ -118,7 +93,7 @@ unsigned int length_list(list_t *list) {
     return len;
 }
 
-void find(list_t *list, unsigned int key) {
+void find(list_t *list, uint32_t key) {
     if(is_list_null(list) && is_head_null(list)) {
         node_t *t = list->head;
         while (t != NULL) {
@@ -132,7 +107,7 @@ void find(list_t *list, unsigned int key) {
     }
 }
 
-list_t *push_front(list_t *list, unsigned int key) {
+list_t *push_front(list_t *list, uint32_t key) {
     if(is_list_null(list)) {
         node_t *n = node();
         n->next = NULL;
@@ -163,7 +138,7 @@ list_t *pop_front(list_t *list) {
     return list;
 }
 
-list_t *push_back(list_t *list, unsigned int key) {
+list_t *push_back(list_t *list, uint32_t key) {
     if(is_list_null(list)) {
         node_t *n = node();
         n->key = key;
@@ -183,7 +158,6 @@ list_t *push_back(list_t *list, unsigned int key) {
 
 list_t *pop_back(list_t *list) {
     if(is_list_null(list) && is_head_null(list)) {
-
         node_t *t = list->head;
         while (t->next->next != NULL) {
             t = t->next;
@@ -196,14 +170,14 @@ list_t *pop_back(list_t *list) {
     return list;
 }
 
-list_t *erase(list_t *list, unsigned int pos) {
+list_t *erase(list_t *list, uint32_t pos) {
     if(is_list_null(list) && is_head_null(list)) {
         node_t *temp1 = list->head;
         node_t *temp2 = NULL;
 
         if (pos >= 1 && pos <= length_list(list)) {
 
-            for (unsigned int i = 0; i < pos - 1; ++i) {
+            for (uint32_t i = 0; i < pos - 1; ++i) {
                 printf("Pos: %u \n", i);
                 printf("Pos: curr is %p; next is %p; data is %u\n",
                        (void*)temp1,
@@ -291,16 +265,14 @@ void sort_list(list_t *list) {
 
             while (head->next != last) {
                 if (head->key > head->next->key) {
-                    unsigned int temp = head->key;
+                    uint32_t temp = head->key;
                     head->key = head->next->key;
                     head->next->key = temp;
                     swap = true;
                 }
                 head = head->next;
             }
-
             last = head;
-
         } while (swap);
     }
 }
