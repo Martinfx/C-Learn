@@ -1,18 +1,16 @@
 #include "vector.h"
 
+// VECTOR_ENTRY(int)
+
 int main() {
-    vec_t *vec = vec_create();
-    for (uint32_t i = 0; i < 20; i++) {
-        vec = vec_push_back(vec, rand() % 100/);
-    }
-    vec_destroy(vec);
+  vec_t v;
+  vec_init(&v);
+  for (int i = 0; i < 20; i++) {
+    vec_pushback(&v, rand() % 100);
+  }
 
-    /*vec2_t v;
-    vec_init(&v);
-    vec_pushback(&v, 20);
-    vec_pushback(&v, 30);
-    vec_pushback(&v, 40);
-    vec_print(&v);*/
+  vec_print(&v);
+  vec_free(&v);
 
-    return 0;
+  return 0;
 }
