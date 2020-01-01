@@ -53,14 +53,10 @@
   VECTOR_GENERIC(T);                                                           \
   VEC_INIT(T) VEC_PRINT(T) VEC_PUSH_BACK(T) VEC_FREE(T)
 
-typedef struct vec_base {
+typedef struct vec {
+  uint32_t *arr;
   uint32_t size;
   uint32_t capacity;
-} vec_base_t;
-
-typedef struct vec {
-  vec_base_t *base;
-  uint32_t *arr;
 } vec_t;
 
 vec_t *vec_is_null(vec_t *vec) {
@@ -76,35 +72,36 @@ void vec_init(vec_t *vec) {
     exit(0);
   }
 
-  const size_t capacity = 10;
+  const size_t capacity = 16;
   vec->arr = calloc(capacity, sizeof(uint32_t) * capacity);
-  vec->base->capacity = capacity;
-  vec->base->size = 0;
+  vec->capacity = capacity;
+  vec->size = 0;
 }
 
 void vec_set(vec_t *vec, uint32_t index, uint32_t key) {
-  if (index < 0 || index >= vec->base->size) {
+  if (index < 0 || index >= vec->size) {
     printf("Index is out of range! \n");
   } else {
     vec->arr[index] = key;
-    vec->base->size += 1;
+    vec->size += 1;
   }
 }
 
 void vec_pushback(vec_t *vec, uint32_t key) {
-  if (vec->base->size == vec->base->capacity) {
-    vec->arr = realloc(vec->arr, sizeof(uint32_t) * vec->base->capacity * 2);
-    vec->base->capacity *= 2;
-    vec->arr[vec->base->size] = key;
-    vec->base->size += 1;
+  if (vec->size == vec->capacity) {
+    vec->arr = realloc(vec->arr, sizeof(uint32_t) * vec->capacity * 2);
+    vec->capacity *= 2;
+    vec->arr[vec->size] = key;
+    vec->size += 1;
   } else {
-    vec->arr[vec->base->size] = key;
-    vec->base->size += 1;
+    vec->arr[vec->size] = key;
+    vec->size += 1;
   }
 }
 
 void vec_print(vec_t *vec) {
-  for (uint32_t i = 0; i < vec->base->size; i++) {
+  printf("debug: vec->size : %u \n", vec->size);
+  for (uint32_t i = 0; i < vec->size; i++) {
     printf("%u \n", vec->arr[i]);
   }
 }
