@@ -15,3 +15,8 @@ add_executable(${PROJECT_NAME} test_list.c)
 project(test_ddlist)
 add_executable(${PROJECT_NAME} test_ddlist.c)
 
+project(test_circlist)
+add_executable(${PROJECT_NAME} test_circlist.c)
+
+project(test_stack)
+add_executable(${PROJECT_NAME} test_stack.c)
