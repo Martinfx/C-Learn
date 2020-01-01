@@ -1,29 +1,20 @@
 #include "queue.h"
 
-void test_queue_list() {
-    queue_t *queue = create_queue();
-
-    enqueue(queue, 10);
-    enqueue(queue, 20);
-    enqueue(queue, 30);
-
-    printf("first item = %d\n", queue->first->key);
-    printf("Count of nodes: %d \n", count(queue));
-    //printf("Lenght of queue: %d \n", lenght_queue(queue));
-
-    dequeue(queue);
-    dequeue(queue);
-    dequeue(queue);
-
-    free_queue(queue);
-}
-
-void test_queue_dlist() {
-
-}
-
 int main() {
-    test_queue_list();
-    test_queue_dlist();
+    queue__t q;
+    queue_init(&q);
+
+    for (size_t i = 0; i < 10; i++) {
+        queue_enqueue(&q, rand() % 100);
+    }
+
+    for (size_t i = 0; i < 8; i++) {
+        queue_dequeue(&q);
+    }
+
+    queue_dequeue(&q);
+    queue_dequeue(&q);
+    queue_free(&q);
+
     return 0;
 }
