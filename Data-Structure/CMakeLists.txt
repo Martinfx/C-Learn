@@ -20,3 +20,6 @@ add_executable(${PROJECT_NAME} test_circlist.c)
 
 project(test_stack)
 add_executable(${PROJECT_NAME} test_stack.c)
+
+project(test_tree)
+add_executable(${PROJECT_NAME} test_tree.c)
