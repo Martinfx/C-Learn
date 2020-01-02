@@ -9,90 +9,97 @@
   typedef struct T##list {                                                     \
     struct T##list *next;                                                      \
     T key;                                                                     \
-  } chunk_t;
+  } T##_chunk_t;
 
 #define QUEUE_GENERIC(T)                                                       \
-  typedef struct T##queue {                                                    \
-    chunk_t *first;                                                            \
-    chunk_t *tail;                                                             \
+  typedef struct T##queue_generic {                                            \
+    T##_chunk_t *first;                                                        \
+    T##_chunk_t *tail;                                                         \
     uint32_t capacity;                                                         \
     uint32_t size;                                                             \
-    T *q;                                                                      \
-  } T##queue__t;
+    T *arr;                                                                    \
+  } T##_queue_t;
 
 #define QUEUE_INIT(T)                                                          \
-  void T##queue_init(T##queue__t *queue__) {                                   \
-    queue__->q = (uint32_t *)calloc(4, sizeof(uint32_t));                      \
-    if (!queue__) {                                                            \
+  void T##_queue_init(T##_queue_t *queue) {                                    \
+    queue->arr = (T *)calloc(1, sizeof(T));                                    \
+    if (!queue) {                                                              \
       exit(0);                                                                 \
     }                                                                          \
                                                                                \
-    queue__->size = 0;                                                         \
-    queue__->capacity = 64;                                                    \
-    queue__->first = NULL;                                                     \
-    queue__->tail = NULL;                                                      \
-    printf("debug: queue->size: %u, queue__->capacity: %u \n", queue__->size,  \
-           queue__->capacity);                                                 \
+    queue->size = 0;                                                           \
+    queue->capacity = 32;                                                      \
+    queue->first = NULL;                                                       \
+    queue->tail = NULL;                                                        \
+    printf("debug: queue->size: %u, queue->capacity: %u \n", queue->size,      \
+           queue->capacity);                                                   \
   }
 
 #define QUEUE_ENQUEUE(T)                                                       \
-  void T##queue_enqueue(T##queue__t *queue__, T key) {                         \
-    if (queue__->size == queue__->capacity) {                                  \
-      printf("debug: queue->size: %u, queue__->capacity: %u \n",               \
-             queue__->size, queue__->capacity);                                \
+  void T##_queue_enqueue(T##_queue_t *queue, T key) {                          \
+    if (queue->size == queue->capacity) {                                      \
+      printf("debug: queue->size: %u, queue->capacity: %u \n", queue->size,    \
+             queue->capacity);                                                 \
       printf("Please wait,  queue is full.\n");                                \
     } else {                                                                   \
-      chunk_t *chunk = calloc(2, sizeof(chunk_t));                             \
-      if (!queue__->first) {                                                   \
-        queue__->first = chunk;                                                \
-        queue__->tail = chunk;                                                 \
+      T##_chunk_t *chunk = calloc(2, sizeof(T##_chunk_t));                     \
+      if (!queue->first) {                                                     \
+        queue->first = chunk;                                                  \
+        queue->tail = chunk;                                                   \
         chunk->key = key;                                                      \
-        printf("debug: chunk->key: %u \n", chunk->key);                        \
+      } else {                                                                 \
+        chunk->key = key;                                                      \
+        queue->tail->next = chunk;                                             \
+        queue->tail = chunk;                                                   \
+        queue->size += 1;                                                      \
+        printf("debug: enqueue chunk->key: %u, queue->size %u \n", chunk->key, \
+               queue->size);                                                   \
       }                                                                        \
-                                                                               \
-      chunk->key = key;                                                        \
-      queue__->tail->next = chunk;                                             \
-      queue__->tail = chunk;                                                   \
-      queue__->size += 1;                                                      \
-      printf("debug: next chunk->key: %u, queue__->size %u \n", chunk->key,    \
-             queue__->size);                                                   \
     }                                                                          \
   }
 
 #define QUEUE_DEQUEUE(T)                                                       \
-  void T##queue_dequeue(T##queue__t *queue__) {                                \
-    if (queue__->size > 0) {                                                   \
-      queue__->size -= 1;                                                      \
-      printf("debug: queue__->size: %u \n", queue__->size);                    \
-      chunk_t *chunk = queue__->first;                                         \
-      queue__->first = queue__->first->next;                                   \
-      printf("debug: remove chunk->key: %u \n", chunk->key);                   \
+  void T##_queue_dequeue(T##_queue_t *queue) {                                 \
+    if (queue->size > 0) {                                                     \
+      queue->size -= 1;                                                        \
+      T##_chunk_t *chunk = queue->first;                                       \
+      queue->first = queue->first->next;                                       \
+      printf("debug: denqueue chunk->key: %u, queue->size: %u \n", chunk->key, \
+             queue->size);                                                     \
       free(chunk);                                                             \
     }                                                                          \
   }
 
+#define QUEUE_CAPACITY(T)                                                      \
+  uint32_t T##_queue_capacity(T##_queue_t *queue) { return queue->capacity; }
+
+#define QUEUE_SIZE(T)                                                          \
+  uint32_t T##_queue_size(T##_queue_t *queue) { return queue->size; }
+
 #define QUEUE_FREE(T)                                                          \
-  void T##queue_free(T##queue__t *queue__) {                                   \
-    if (queue__->first) {                                                      \
-      free(queue__->q);                                                        \
-      queue__->q = NULL;                                                       \
+  void T##_queue_free(T##_queue_t *queue) {                                    \
+    if (queue->first) {                                                        \
+      free(queue->arr);                                                        \
+      queue->arr = NULL;                                                       \
     }                                                                          \
   }
 
 #define QUEUE_ENTRY(T)                                                         \
   QUEUE_INTERNAL_LIST(T);                                                      \
-  QUEUE_GENERIC(T)                                                             \
-  QUEUE_INIT(T)                                                                \
-  QUEUE_ENQUEUE(T)                                                             \
-  QUEUE_DEQUEUE(T)                                                             \
-  QUEUE_FREE(T)
+  QUEUE_GENERIC(T);                                                            \
+  QUEUE_INIT(T);                                                               \
+  QUEUE_ENQUEUE(T);                                                            \
+  QUEUE_DEQUEUE(T);                                                            \
+  QUEUE_CAPACITY(T);                                                           \
+  QUEUE_SIZE(T);                                                               \
+  QUEUE_FREE(T);
 
 typedef struct list {
   struct list *next;
   uint32_t key;
 } chunk_t;
 
-typedef struct queue2 {
+typedef struct queue {
   chunk_t *first;
   chunk_t *tail;
   uint32_t capacity;
@@ -100,69 +107,113 @@ typedef struct queue2 {
   uint32_t *q;
 } queue__t;
 
-void queue_init(queue__t *queue__) {
-  queue__->q = (uint32_t *)calloc(4, sizeof(uint32_t));
-  if (!queue__) {
+void queue_init(queue__t *queue) {
+  queue->q = (uint32_t*)calloc(1, sizeof(uint32_t));
+  if (!queue) {
     exit(0);
   }
 
-  queue__->size = 0;
-  queue__->capacity = 64;
-  queue__->first = NULL;
-  queue__->tail = NULL;
-  printf("debug: queue->size: %u, queue__->capacity: %u \n", queue__->size,
-         queue__->capacity);
+  queue->size = 0;
+  queue->capacity = 32;
+  queue->first = NULL;
+  queue->tail = NULL;
+  printf("debug: queue->size: %u, queue->capacity: %u \n", queue->size,
+         queue->capacity);
 }
 
-void queue_enqueue(queue__t *queue__, uint32_t key) {
-  if (queue__->size == queue__->capacity) {
-    printf("debug: queue->size: %u, queue__->capacity: %u \n", queue__->size,
-           queue__->capacity);
+void queue_enqueue(queue__t *queue, uint32_t key) {
+  if (queue->size == queue->capacity) {
+    printf("debug: queue->size: %u, queue->capacity: %u \n", queue->size,
+           queue->capacity);
     printf("Please wait,  queue is full.\n");
   } else {
     chunk_t *chunk = calloc(2, sizeof(chunk_t));
-
-    if (!queue__->first) {
-      queue__->first = chunk;
-      queue__->tail = chunk;
+    if (!queue->first) {
+      queue->first = chunk;
+      queue->tail = chunk;
       chunk->key = key;
       printf("debug: chunk->key: %u \n", chunk->key);
+    } else {
+      chunk->key = key;
+      queue->tail->next = chunk;
+      queue->tail = chunk;
+      queue->size += 1;
     }
-
-    chunk->key = key;
-    queue__->tail->next = chunk;
-    queue__->tail = chunk;
-    queue__->size += 1;
-
-    printf("debug: next chunk->key: %u, queue__->size %u \n", chunk->key,
-           queue__->size);
+    printf("debug: next chunk->key: %u, queue->size %u \n", chunk->key,
+           queue->size);
   }
 }
 
-void queue_dequeue(queue__t *queue__) {
-  if (queue__->size > 0) {
-    queue__->size -= 1;
-    printf("debug: queue__->size: %u \n", queue__->size);
-    chunk_t *chunk = queue__->first;
-    queue__->first = queue__->first->next;
+void queue_dequeue(queue__t *queue) {
+  if (queue->size >= 0) {
+    queue->size -= 1;
+    printf("debug: queue->size: %u \n", queue->size);
+    chunk_t *chunk = queue->first;
+    queue->first = queue->first->next;
     printf("debug: remove chunk->key: %u \n", chunk->key);
     free(chunk);
   }
 }
 
-void queue_free(queue__t *queue__) {
-  if (queue__->first) {
-    free(queue__->q);
-    queue__->q = NULL;
+uint32_t queue_capacity(queue__t *queue) { return queue->capacity; }
+
+uint32_t queue_size(queue__t *queue) { return queue->size; }
+
+void queue_free(queue__t *queue) {
+  if (queue->first) {
+    free(queue->q);
+    queue->q = NULL;
   }
 }
 
-typedef struct llist {
+//
+// Implementation doubly linked queue
+//
+typedef struct dllist {
+    uint32_t key;
+    struct dllist *next;
+    struct dllist *prev;
+} dllchunk_t;
+
+typedef struct dlqueue {
+    uint32_t size;
+    uint32_t capacity;
+    dllchunk_t *first;
+    dllchunk_t *last;
+    uint32_t *dlqueue;
+} dllqueue_t;
+
+void dllqueue_init(dllqueue_t *queue__, uint32_t capacity) {
+    queue__->dlqueue = (uint32_t*)malloc(sizeof(uint32_t));
+    if(!queue__) { exit(0); }
+
+    queue__->size = 0;
+    queue__->capacity = capacity;
+    queue__->first = NULL;
+    queue__->last  = NULL;
+}
+
+void dllqueue_enqueue(dllqueue_t *queue__, uint32_t key){
+    dllchunk_t *chunk = calloc(3, sizeof(dllchunk_t));
+    chunk->key = key;
+
+    if(!queue__){
+        queue__->first = NULL;
+        queue__->last  = NULL;
+    }
+
+    chunk->prev = queue__->last;
+    queue__->first = chunk->next;
+    queue__->last = chunk;
+}
+
+
+/*typedef struct llist {
   struct llist *next;
   int key;
 } node_t;
 
-typedef struct queue {
+typedef struct struc_queue {
   node_t *first;
   node_t *last;
   int count;
@@ -221,8 +272,6 @@ int count(queue_t *queue) {
 
 void free_queue(queue_t *queue) {
   if (queue->first == NULL) {
-    // if is pointer queue->first == NULL
-    // free dealocated memory
     free(queue);
   }
 }
@@ -253,11 +302,6 @@ void dequeue(queue_t *queue) {
 
   printf("Delete node.\n");
 }
-
-/*
- * Simple implementation queue
- * as doubly linked list
- */
 
 typedef struct d_list {
   int key;
@@ -348,3 +392,4 @@ void print_dqueue(queue_dlist_t *queue) {
     temp = temp->next;
   }
 }
+*/

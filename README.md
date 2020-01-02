@@ -7,24 +7,25 @@ Fundamentals of C/C++ structure
   * Pointer to pointer (Multiple Indirection)
   * Pointer to struct
 
-#### Data structures in language C
+#### Fundamentals of data structure
   * Array
   * Vector
-  * Linked list
-  * Doubly Linked list
-  * Circular linked list
+  * Generic Vector
+  * Linked, Doubly, Circual linked list
   * Queue - implemented using a linked list
   * Queue - implemented using a doubly list
+  * Generic Queue
   * Stack
-  * Tree
+  * Binary Tree
 
 #### Sort algoritms 
   * Bubble sort
   * Insert sort
   
 #### Other
+  * MultiProcess
+  * Threads
   * Posix spawn
   * Recursion
   * Time
   * Network - client, server
-
