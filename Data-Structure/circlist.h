@@ -1,118 +1,46 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 typedef struct node {
+    uint32_t key;
+    struct node *next;
+} node_t;
+
+typedef struct clist {
     struct node *head;
     struct node *tail;
-    struct node *next;
-    int key;
-} c_list_t;
+} clist_t;
 
-c_list_t *create_clist() {
-    c_list_t *list = (c_list_t*)malloc(sizeof(c_list_t));
-    // NULL pointer is always false
-    if(!list) {
-        printf("Cannot allocate list!\n");
-        exit(1);
-    }
-
-    list->head = NULL;
-    list->tail = NULL;
-    list->next = NULL;
-    list->key = 0;
-
-    return list;
+clist_t *create_list() {
+    clist_t *circ_list = calloc(2, sizeof(clist_t));
+    return circ_list;
 }
 
-c_list_t *create_node() {
-    c_list_t *node = (c_list_t*)malloc(sizeof(c_list_t));
-    if(!node) {
-        printf("Cannot allocate node!\n");
-        exit(1);
-    }
-
-    node->key = 0;
+clist_t *push_front(clist_t *list, uint32_t key) {
+    node_t *node = (node_t*)malloc(sizeof(node_t));
     node->next = NULL;
-    return node;
-}
+    node->key = key;
 
-c_list_t *push_front(c_list_t *list, int key) {
-    c_list_t *node = create_node();
-    // if is list->head == NULL then add node
-    if(!list->head) {
-        node->key = key;
+    if(list->head == NULL) {
         list->head = node;
         list->tail = node;
-        node->next = list->head;
-        return list;
     }
 
-    c_list_t *temp = list->head;
-    node->key = key;
-    node->next = temp;
+    node->next = list->head;
+    list->tail->next = node;
     list->head = node;
-    list->tail->next = list->head;
+
     return list;
 }
 
-/*c_list_t *push_front__(c_list_t *list, int key) {
-    c_list_t *node = create_node();
-    if(!list->head){
-        node->key = key;
-        list->head = node;
-        list->tail = node;
-        node->next = list->head;
-        return list;
-    }
-
-    c_list_t *temp = list->head;
-    node->key = key;
-    node->next = temp;
-    list->head = node;
-    list->tail->next = list->head;
-    return list;
-}*/
-
-void print_list(c_list_t *list) {
+void print_list(clist_t *list) {
     if(list->head) {
-        c_list_t *temp = list->head;
+        node_t *curr = list->head;
         do {
-            printf("List node: current is %p; \n"
-                   "temp->next is %p; \n"
-                   "temp->data is %d \n",
-                   //"lenght is %d\n",
-                   (void*)temp,
-                   (void*)temp->next,
-                   temp->key);
-            temp = temp->next;
-        } while (temp != list->head);
+            printf("curr->key %d \n", curr->key);
+            curr = curr->next;
+        }   while(curr != list->head);
     }
-
-    /*while(temp != list->head) {
-            printf("List node: current is %p; \n"
-                   "temp->next is %p; \n"
-                   "temp->data is %d \n",
-                   //"lenght is %d\n",
-                   (void*)temp,
-                   (void*)temp->next,
-                   temp->key);
-
-            temp = temp->next;
-        }*/
 }
-
-/*
-void remove_whole_list(circual_list_t *list) {
-    circual_list_t *temp = list->head;
-    circual_list_t *next = list->head;
-
-    while(temp != NULL) {
-        next = temp->next;
-        free(temp);
-        temp = next;
-    }
-    free(list);
-    list = NULL;
-}
-*/

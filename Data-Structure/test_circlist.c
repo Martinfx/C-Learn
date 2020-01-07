@@ -1,24 +1,11 @@
 #include "circlist.h"
 
 int main() {
-    c_list_t *list = create_clist();
-    list = push_front(list, 1);
-    list = push_front(list, 2);
-    list = push_front(list, 3);
-    list = push_front(list, 4);
-    list = push_front(list, 5);
-    list = push_front(list, 6);
+    clist_t *clist = create_list();
 
-    print_list(list);
-    printf("--------------------------------------");
-
-
-    list = push_front(list, 7);
-    list = push_front(list, 8);
-    list = push_front(list, 9);
-
-    print_list(list);
-    printf("--------------------------------------");
-
+    for(uint32_t i = 0; i < 10; i++) {
+        clist = push_front(clist, rand() % 100);
+    }
+    print_list(clist);
     return 0;
 }
