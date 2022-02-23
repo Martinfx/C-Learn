@@ -163,6 +163,12 @@ void post_order_traversal(btree_t *tree) {
   }
 }
 
+void level_order_traversal(btree_t *tree) {
+  //if(tree != NULL) {
+
+  //}
+}
+
 btree_t *remove_tree(btree_t *tree) {
   if (tree) {
     remove_tree(tree->left);

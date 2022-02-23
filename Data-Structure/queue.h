@@ -155,9 +155,13 @@ void queue_dequeue(queue__t *queue) {
   }
 }
 
-uint32_t queue_capacity(queue__t *queue) { return queue->capacity; }
+uint32_t queue_capacity(queue__t *queue) {
+    return queue->capacity;
+}
 
-uint32_t queue_size(queue__t *queue) { return queue->size; }
+uint32_t queue_size(queue__t *queue) {
+    return queue->size;
+}
 
 void queue_free(queue__t *queue) {
   if (queue->first) {

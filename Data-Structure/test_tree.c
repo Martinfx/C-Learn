@@ -4,7 +4,7 @@ int main() {
     btree_t *root = create_tree();
     root->key = 555;
 
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 200; ++i) {
         root = insert(root, rand() % 10);
     }
 
