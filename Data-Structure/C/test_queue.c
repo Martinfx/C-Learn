@@ -26,7 +26,7 @@ void test_generic_queue() {
     int_queue_enqueue(&queue, rand() % 100);
   }
 
-  for (size_t i = 0; i < 10; i++) {
+  for (size_t i = 0; i < 344; i++) {
     int_queue_dequeue(&queue);
   }
 
@@ -38,7 +38,7 @@ void test_priority_queue() {
 
 int main() {
   // test_queue();
-  // test_generic_queue();
+  test_generic_queue();
   // test_priority_queue();
 
   return 0;

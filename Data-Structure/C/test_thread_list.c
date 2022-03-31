@@ -1,4 +1,4 @@
-//#include "list.h"
+#include "thread_list.h"
 
 #include <assert.h>
 #include <stdio.h>
@@ -7,35 +7,35 @@
 #include <stdint.h>
 #include <time.h>
 
-#include "threads.h"
+#include <threads.h>
 
 // Show error code from thread return value
 void debug_thread_error_code(int code) {
-  switch (code) {
-  case thrd_success:
-    printf("Thread state Initialize successful\n");
-    assert(true);
-    break;
-  case thrd_nomem:
-    printf("Due to out of memory condition\n");
-    assert(false);
-    break;
-  case thrd_timedout:
-    printf("Indicates timed out\n");
-    assert(false);
-    break;
-  case thrd_busy:
-    printf("Due to resource temporary unavailable\n");
-    assert(false);
-    break;
-  case thrd_error:
-    printf("Indicates unsuccessful\n");
-    assert(false);
-    break;
-  default:
-    assert(false);
-    break;
-  }
+    switch (code) {
+    case thrd_success:
+        printf("Thread state Initialize successful\n");
+        assert(true);
+        break;
+    case thrd_nomem:
+        printf("Due to out of memory condition\n");
+        assert(false);
+        break;
+    case thrd_timedout:
+        printf("Indicates timed out\n");
+        assert(false);
+        break;
+    case thrd_busy:
+        printf("Due to resource temporary unavailable\n");
+        assert(false);
+        break;
+    case thrd_error:
+        printf("Indicates unsuccessful\n");
+        assert(false);
+        break;
+    default:
+        assert(false);
+        break;
+    }
 }
 
 typedef struct threadsafe_node {
@@ -50,6 +50,24 @@ typedef struct threadsafe_list {
     mtx_t mutex;
     cnd_t cnd;
 } threadsafe_list_t;
+
+threadsafe_list_t *is_list_null(threadsafe_list_t *list) {
+    if (!list) {
+        debug("List (list*) is NULL!");
+        return list;
+    } else {
+        return list;
+    }
+}
+
+threadsafe_list_t *is_head_null(threadsafe_list_t *list) {
+    if (!list->pHead) {
+        debug("List (list->head) is NULL!");
+        return list;
+    } else {
+        return list;
+    }
+}
 
 threadsafe_list_t *threadsafe_list_init() {
     threadsafe_list_t *list = (threadsafe_list_t*)calloc(2, sizeof(threadsafe_list_t));
@@ -94,10 +112,10 @@ threadsafe_list_t *threadsafe_list_push_back(threadsafe_list_t *list, int key) {
 
         list->count++;
 
-        printf("Count of nodes in list %d \n", list->count);
+        printf("Count of nodes in list %u \n", list->count);
 
     } else {
-        printf("List is full! %d \n", list->count);
+        printf("List is full! %u \n", list->count);
     }
 
     mtx_unlock(&list->mutex);
@@ -108,18 +126,21 @@ threadsafe_list_t *threadsafe_list_pop_back(threadsafe_list_t *list) {
     // lock
     mtx_lock(&list->mutex);
 
-    if (list) {
-
+    //if (list) {
+        if (is_list_null(list) && is_head_null(list)) {
         threadsafe_node_t *node = list->pHead;
-        while (node->pNext->pNext != NULL) {
-            node = node->pNext;
-        }
+        //if(node) {
+            while (node->pNext != NULL) {
+                node = node->pNext;
+            }
 
-        list->pTail = node;
-        free(list->pTail->pNext);
-        list->pTail->pNext = NULL;
-        list->count--;
-    }
+            list->pTail = node;
+            free(list->pTail->pNext);
+            list->pTail->pNext = NULL;
+            list->count--;
+        }
+      //}
+   // }
 
     // unlock
     mtx_unlock(&list->mutex);
@@ -134,7 +155,7 @@ uint32_t list_thread_length(threadsafe_list_t *list) {
 }
 
 bool list_threadsafe_is_empty(threadsafe_list_t *list) {
-    printf("list_threadsafe_is_empty %d: \n", list->count);
+    printf("list_threadsafe_is_empty %u: \n", list->count);
     return (list->count == 0) ? true : false;
 }
 
@@ -160,7 +181,7 @@ threadsafe_list_t *clear_list(threadsafe_list_t *list) {
         mtx_unlock(&list->mutex);
         mtx_destroy(&list->mutex);
 
-        printf("Count of nodes in list %d \n", list->count);
+        printf("Count of nodes in list %u \n", list->count);
         free(list);
         list = NULL;
         return list;
@@ -168,37 +189,6 @@ threadsafe_list_t *clear_list(threadsafe_list_t *list) {
 
     return list;
 }
-
-void linked_list() {
-    /*list_t *list = list_init();
-    for (uint32_t i = 0; i < 10; i++){
-        list = push_front(list, 12);
-    }
-    for (uint32_t i = 0; i < 5; i++) {
-        list = pop_front(list);
-    }
-    find(list, 10);
-    print_backward_list(list);
-    printf("Length of list is %u items.\n", length_list(list));
-    print_forward_list(list);
-    for (uint32_t i = 0; i < 10; i++) {
-        list = push_back(list, rand() % 100);
-    }
-    print_forward_list(list);
-    list = pop_back(list);
-    list = pop_back(list);
-    list = pop_back(list);
-    list = pop_back(list);
-    printf("Length of list is %u items.\n", length_list(list));
-    remove_duplicate(list);
-    print_backward_list(list);
-    printf("Length of list is %u items.\n", length_list(list));
-    list = erase(list, 1);
-    print_forward_list(list);
-    list = clear_list(list);
-    print_forward_list(list);*/
-}
-
 
 static threadsafe_list_t *list_thread;
 static uint32_t SIZE_MAX_ITEMS = 5;
@@ -250,8 +240,8 @@ void producer(void *arg)
 
 void test_thread_linked_list()
 {
-    const int PROD_NUM_THREADS = 5;
-    const int CONS_NUM_THREADS = 5;
+    const int PROD_NUM_THREADS = 2;
+    const int CONS_NUM_THREADS = 2;
 
     thrd_t producer_threads[PROD_NUM_THREADS];
     thrd_t consumer_threads[CONS_NUM_THREADS];
@@ -260,14 +250,14 @@ void test_thread_linked_list()
     printf("------start thread test--------\n");
 
     for (uint32_t i = 0; i < PROD_NUM_THREADS; i++) {
-        if (thrd_create(&producer_threads[i], producer, (void*)(long)i) != thrd_success) {
+        if (thrd_create(&producer_threads[i], (thrd_start_t)producer, (void*)(long)i) != thrd_success) {
             printf("Thread error : %u", i);
         }
     }
 
 
     for (uint32_t i = 0; i < CONS_NUM_THREADS; i++) {
-        if (thrd_create(&consumer_threads[i], consumer, (void*)(long)i) != thrd_success) {
+        if (thrd_create(&consumer_threads[i], (thrd_start_t)consumer, (void*)(long)i) != thrd_success) {
             printf("Thread error : %u", i);
         }
     }

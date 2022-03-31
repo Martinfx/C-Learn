@@ -14,7 +14,7 @@ typedef struct stack {
 } stack_t;
 
 void stack_init(stack_t *s, uint32_t capacity) {
-  s->base = (stack_t *)calloc(capacity, capacity * sizeof(stack_t));
+  s->base = (stack_t *)calloc(5, capacity * sizeof(stack_t));
   if (!s->base) {
     exit(0);
   }
