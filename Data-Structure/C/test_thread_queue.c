@@ -103,7 +103,7 @@ void writer(void *arg)
         mtx_lock(&queue.mutex_lock);
         int_queue_enqueue(&queue, 10);
         mtx_unlock(&queue.mutex_lock);
-        printf("writer");
+        printf("writer\n");
 
     }
 }
@@ -111,11 +111,10 @@ void reader(void *arg)
 {
     int i=0;
     while (true){
-
         mtx_lock(&queue.mutex_lock);
         int_queue_dequeue(&queue);
         mtx_unlock(&queue.mutex_lock);
-        printf("reader");
+        printf("reader\n");
     }
 }
 
@@ -123,7 +122,7 @@ void test_thread_generic_queue() {
     int_queue_init(&queue);
 
     const int PROD_NUM_THREADS = 2;
-    const int CONS_NUM_THREADS = 2;
+    const int CONS_NUM_THREADS = 4;
 
     thrd_t producer_threads[PROD_NUM_THREADS];
     thrd_t consumer_threads[CONS_NUM_THREADS];
@@ -158,6 +157,7 @@ void test_thread_generic_queue() {
     }
 
     int_queue_free(&queue);
+    mtx_destroy(&queue.mutex_lock);
 }
 
 int main(void) {
