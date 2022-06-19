@@ -6,13 +6,13 @@
 #include <string.h>
 
 typedef struct stack {
-    struct stack *base;
+    uint32_t *base;
     uint32_t *top;
     uint32_t capacity;
 } stack_t;
 
 void stack_init(stack_t *s, uint32_t capacity) {
-    s->base = (stack_t*)calloc(3, capacity * sizeof (stack_t));
+    s->base = malloc(capacity * sizeof (uint32_t));
     s->top = s->base;
     s->capacity = capacity;
 }
@@ -24,7 +24,7 @@ void stack_push(stack_t *s, uint32_t val) {
     else {
         *s->top = val;
         printf("Added item to stack: %d \n", *s->top);
-        s->top += sizeof(uint32_t);
+        s->top += 1;
     }
 }
 
@@ -33,7 +33,7 @@ uint32_t stack_pop(stack_t *s) {
         printf("Stack is empty!\n");
         return 0;
     } else {
-       s->top -= sizeof(uint32_t);
+       s->top -= 1;
        printf("Pop this value: %d\n",*s->top);
        return *s->top;
     }

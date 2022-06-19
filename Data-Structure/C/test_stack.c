@@ -2,8 +2,8 @@
 
 int main() {
     stack_t stack;
-    stack_init(&stack, 2);
-    for(int i  = 0; i < 3; i++){
+    stack_init(&stack, 3);
+    for(int i  = 0; i < 4; i++){
         stack_push(&stack, i);
     }
     //stack_push(&stack, 24);
