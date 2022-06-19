@@ -18,6 +18,9 @@ add_executable(${PROJECT_NAME} test_list.c)
 project(test_thread_list)
 add_executable(${PROJECT_NAME} test_thread_list.c)
 
+project(test_thread_queue)
+add_executable(${PROJECT_NAME} test_thread_queue.c)
+
 project(test_ddlist)
 add_executable(${PROJECT_NAME} test_ddlist.c)
 

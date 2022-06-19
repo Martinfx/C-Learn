@@ -22,7 +22,7 @@
 
 #define QUEUE_INIT(T)                                                          \
   void T##_queue_init(T##_queue_t *queue) {                                    \
-    queue->arr = (T *)calloc(1, sizeof(T));                                    \
+    queue->arr = (T *)malloc(sizeof(T));                                       \
     if (!queue) {                                                              \
       exit(0);                                                                 \
     }                                                                          \
@@ -42,7 +42,7 @@
              queue->capacity);                                                 \
       printf("Please wait,  queue is full.\n");                                \
     } else {                                                                   \
-      T##_chunk_t *chunk = calloc(2, sizeof(T##_chunk_t));                     \
+      T##_chunk_t *chunk = malloc(sizeof(T##_chunk_t));                        \
       if (!queue->first) {                                                     \
         queue->first = chunk;                                                  \
         queue->tail = chunk;                                                   \

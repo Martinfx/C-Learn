@@ -21,7 +21,7 @@
 
 #define QUEUE_INIT(T)                                                          \
   void T##_queue_init(T##_queue_t *queue) {                                    \
-    queue->arr = (T *)calloc(1, sizeof(T));                                    \
+    queue->arr = (T *)malloc(sizeof(T));                                       \
     if (!queue) {                                                              \
       exit(0);                                                                 \
     }                                                                          \
@@ -41,7 +41,7 @@
              queue->capacity);                                                 \
       printf("Please wait,  queue is full.\n");                                \
     } else {                                                                   \
-      T##_chunk_t *chunk = calloc(2, sizeof(T##_chunk_t));                     \
+         T##_chunk_t *chunk = malloc(sizeof(T##_chunk_t));                     \
       if (!queue->first) {                                                     \
         queue->first = chunk;                                                  \
         queue->tail = chunk;                                                   \
@@ -98,7 +98,6 @@ static int_queue_t queue;
 
 void writer(void *arg)
 {
-    int i=0;
     while (true){
         mtx_lock(&queue.mutex_lock);
         int_queue_enqueue(&queue, 10);
@@ -109,7 +108,6 @@ void writer(void *arg)
 }
 void reader(void *arg)
 {
-    int i=0;
     while (true){
         mtx_lock(&queue.mutex_lock);
         int_queue_dequeue(&queue);
