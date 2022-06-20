@@ -70,7 +70,7 @@ threadsafe_list_t *is_head_null(threadsafe_list_t *list) {
 }
 
 threadsafe_list_t *threadsafe_list_init() {
-    threadsafe_list_t *list = (threadsafe_list_t*)calloc(2, sizeof(threadsafe_list_t));
+    threadsafe_list_t *list = (threadsafe_list_t*)malloc(sizeof(threadsafe_list_t));
     if(!list) {
         printf("Allocation memory failed!\n");
         assert(list);

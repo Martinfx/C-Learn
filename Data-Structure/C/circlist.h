@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <assert.h>
 
 typedef struct node {
     uint32_t key;
@@ -14,7 +15,7 @@ typedef struct clist {
 } clist_t;
 
 clist_t *create_list() {
-    clist_t *circ_list = calloc(2, sizeof(clist_t));
+    clist_t *circ_list = malloc(sizeof(clist_t));
     return circ_list;
 }
 
@@ -44,3 +45,5 @@ void print_list(clist_t *list) {
         }   while(curr != list->head);
     }
 }
+
+//void
