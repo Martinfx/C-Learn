@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <assert.h>
+#include <sys/select.h>
 
 #include "threads.h"
 
@@ -48,9 +49,14 @@ void ring_buffer_free(ring_buffer_t *buffer){
 }
 
 static ring_buffer_t ring_buffer;
+struct timespec ts1 = {
+    .tv_sec = 0,
+    .tv_nsec = 500*1000*10
+};
 
 void writer(void *args) {
      while (true){
+        nanosleep(&ts1, NULL);
         mtx_lock(&ring_buffer.mutex_lock);
         ring_buffer_push(&ring_buffer, rand() % 10);
         printf("writer\n");
@@ -60,6 +66,7 @@ void writer(void *args) {
 
 void reader(void *args) {
     while(true) {
+      nanosleep(&ts1, NULL);
       mtx_lock(&ring_buffer.mutex_lock);
       uint32_t element;
       ring_buffer_pop(&ring_buffer, &element);
