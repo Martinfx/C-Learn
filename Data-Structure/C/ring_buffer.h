@@ -14,6 +14,7 @@ typedef struct ring_buffer {
 
 void ring_buffer_init(ring_buffer_t *buffer, size_t size)
 {
+    assert(buffer && size);
     buffer->buffer = malloc(size * sizeof (uint32_t));
     buffer->read = NULL;
     buffer->write = NULL;

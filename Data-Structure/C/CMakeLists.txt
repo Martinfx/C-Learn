@@ -30,6 +30,9 @@ add_executable(${PROJECT_NAME} test_circlist.c)
 project(test_ring_buffer)
 add_executable(${PROJECT_NAME} test_ring_buffer.c)
 
+project(test_thread_ring_buffer)
+add_executable(${PROJECT_NAME} test_thread_ring_buffer.c)
+
 project(test_stack)
 add_executable(${PROJECT_NAME} test_stack.c)
 
