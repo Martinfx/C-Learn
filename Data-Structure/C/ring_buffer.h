@@ -28,17 +28,12 @@ void ring_buffer_push(ring_buffer_t *buffer, size_t element) {
     buffer->write = next;
 }
 
-void ring_buffer_pop(ring_buffer_t *buffer, size_t *element) {
-    ///access_lock.lock();
-    uint32_t *next  = buffer->buffer + ((buffer->read - buffer->buffer) + 1)%(buffer->size);
-    if (buffer->read  == buffer->write)
-    {
-        //access_lock.unlock();
-        //return false;
-        printf("is empty!\n");
+uint32_t ring_buffer_pop(ring_buffer_t *buffer, uint32_t *element) {
+    uint32_t *next = buffer->buffer + ((buffer->read - buffer->buffer) + 1)%(buffer->size);
+    if (buffer->read  == buffer->write) {
+        printf("is full!\n");
     }
-    element = *buffer->read;
-    printf("pop: %d\n", *buffer->read);
+    *element = *buffer->read;
     buffer->read = next;
 }
 
