@@ -17,16 +17,19 @@ void test_queue() {
   queue_free(&q);
 }
 
-QUEUE_ENTRY(int);
+QUEUE_DEFINE(int);
 void test_generic_queue() {
   int_queue_t queue;
   int_queue_init(&queue);
 
-  for (size_t i = 0; i < 33; i++) {
-    int_queue_enqueue(&queue, rand() % 100);
+  for (size_t i = 0; i < 100; i++) {
+    int_queue_enqueue(&queue, arc4random() % 100);
   }
 
-  for (size_t i = 0; i < 344; i++) {
+  printf("capacity: %d \n", int_queue_capacity(&queue));
+  printf("size: %d \n", int_queue_size(&queue));
+
+  for (size_t i = 0; i < 120; i++) {
     int_queue_dequeue(&queue);
   }
 

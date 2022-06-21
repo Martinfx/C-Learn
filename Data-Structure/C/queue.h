@@ -71,10 +71,10 @@
   }
 
 #define QUEUE_CAPACITY(T)                                                      \
-  uint32_t T##_queue_capacity(T##_queue_t *queue) { return queue->capacity; }
+  T T##_queue_capacity(T##_queue_t *queue) { return queue->capacity; }
 
 #define QUEUE_SIZE(T)                                                          \
-  uint32_t T##_queue_size(T##_queue_t *queue) { return queue->size; }
+  T T##_queue_size(T##_queue_t *queue) { return queue->size; }
 
 #define QUEUE_FREE(T)                                                          \
   void T##_queue_free(T##_queue_t *queue) {                                    \
@@ -84,7 +84,7 @@
     }                                                                          \
   }
 
-#define QUEUE_ENTRY(T)                                                         \
+#define QUEUE_DEFINE(T)                                                         \
   QUEUE_INTERNAL_LIST(T);                                                      \
   QUEUE_GENERIC(T);                                                            \
   QUEUE_INIT(T);                                                               \
