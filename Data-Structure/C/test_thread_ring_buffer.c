@@ -4,8 +4,7 @@
 #include <stdint.h>
 #include <assert.h>
 #include <sys/select.h>
-
-#include "threads.h"
+#include <threads.h>
 
 typedef struct ring_buffer {
     uint32_t *buffer;
