@@ -30,19 +30,18 @@ void ring_buffer_push(ring_buffer_t *buffer, size_t element) {
     if ((next - buffer->write) > buffer->size)
         buffer-> write -= buffer->size;
 
+    if (buffer->read  == buffer->write) {
+        printf("is full!\n");
+    }
+
     *buffer->write = element;
     printf("write: %d\n", *buffer->write);
     buffer->write = next;
 }
 
 void ring_buffer_pop(ring_buffer_t *buffer, uint32_t *element) {
-    uint32_t *next = buffer->write+1;
-    if ((next - buffer->write) > buffer->size)
-        buffer-> write -= buffer->size;
+    uint32_t *next = buffer->buffer + ((buffer->read - buffer->buffer) + 1) % (buffer->size);
 
-    if (buffer->read  == buffer->write) {
-        printf("is full!\n");
-    }
     *element = *buffer->read;
     buffer->read = next;
 }
@@ -84,9 +83,9 @@ void reader(void *args) {
 int main() {
     srand( time(0) );
     ring_buffer_init(&ring_buffer, 10);
-    mtx_init(&ring_buffer.mutex_lock, mtx_plain | mtx_recursive);
+    //mtx_init(&ring_buffer.mutex_lock, mtx_plain);
     const int PROD_NUM_THREADS = 2;
-    const int CONS_NUM_THREADS = 4;
+    const int CONS_NUM_THREADS = 2;
 
     thrd_t producer_threads[PROD_NUM_THREADS];
     thrd_t consumer_threads[CONS_NUM_THREADS];
