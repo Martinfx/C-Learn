@@ -10,7 +10,7 @@ typedef struct ring_buffer {
     uint32_t *buffer;
     uint32_t *read;
     uint32_t *write;
-    _Atomic size_t size;
+    size_t size;
     mtx_t mutex_lock;
 } ring_buffer_t;
 
@@ -26,14 +26,20 @@ void ring_buffer_init(ring_buffer_t *buffer, size_t size)
 }
 
 void ring_buffer_push(ring_buffer_t *buffer, size_t element) {
-    uint32_t *next = buffer->buffer + ((buffer->write - buffer->buffer) + 1) % (buffer->size);
+    uint32_t *next = buffer->write+1;
+    if ((next - buffer->write) > buffer->size)
+        buffer-> write -= buffer->size;
+
     *buffer->write = element;
     printf("write: %d\n", *buffer->write);
     buffer->write = next;
 }
 
-uint32_t ring_buffer_pop(ring_buffer_t *buffer, uint32_t *element) {
-    uint32_t *next = buffer->buffer + ((buffer->read - buffer->buffer) + 1)%(buffer->size);
+void ring_buffer_pop(ring_buffer_t *buffer, uint32_t *element) {
+    uint32_t *next = buffer->write+1;
+    if ((next - buffer->write) > buffer->size)
+        buffer-> write -= buffer->size;
+
     if (buffer->read  == buffer->write) {
         printf("is full!\n");
     }
@@ -78,7 +84,7 @@ void reader(void *args) {
 int main() {
     srand( time(0) );
     ring_buffer_init(&ring_buffer, 10);
-    mtx_init(&ring_buffer.mutex_lock, mtx_plain);
+    mtx_init(&ring_buffer.mutex_lock, mtx_plain | mtx_recursive);
     const int PROD_NUM_THREADS = 2;
     const int CONS_NUM_THREADS = 4;
 
