@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.0)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_C_FLAGS "-w -std=gnu11 -O1 -g -Wall -ggdb -lstdthreads -DDEBUG=1")
+set(CMAKE_C_FLAGS "-fsanitize=address -fno-omit-frame-pointer -std=gnu11 -O1 -g -Wall -ggdb -lstdthreads -DDEBUG=1")
 
-option(CLANG_MSAN "Enable Clang memory sanitizer" ON)
-if (CLANG_MSAN)
-    set (CMAKE_CXX_FLAGS "-fsanitize=address -fno-omit-frame-pointer")
-endif()
+#option(CLANG_MSAN "Enable Clang memory sanitizer" ON)
+#if (CLANG_MSAN)s
+#    set (CMAKE_CXX_FLAGS "-fsanitize=address -fno-omit-frame-pointer")
+#endif()
 
 option(CLANG_TSAN "Enable Clang threads sanitizer" ON)
 if (CLANG_TSAN)

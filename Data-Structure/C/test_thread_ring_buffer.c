@@ -19,23 +19,21 @@ void ring_buffer_init(ring_buffer_t *buffer, size_t size)
 {
     assert(buffer && size);
     buffer->buffer = malloc(size * sizeof (uint32_t));
-    buffer->read = NULL;
-    buffer->write = NULL;
     buffer->size = size;
     buffer->read = buffer->write = buffer->buffer;
 }
 
-void ring_buffer_push(ring_buffer_t *buffer, size_t element) {
+void ring_buffer_push(ring_buffer_t *buffer, uint32_t element) {
     uint32_t *next = buffer->write+1;
-    if ((next - buffer->write) > buffer->size)
-        buffer-> write -= buffer->size;
+    if ((next - buffer->buffer) >= buffer->size)
+        next -= buffer->size;
 
-    if (buffer->read  == buffer->write) {
+    /*if (buffer->read  == buffer->write) {
         printf("is full!\n");
-    }
+    }*/
 
-    *buffer->write = element;
-    printf("write: %d\n", *buffer->write);
+    *next = element;
+    printf("write: %u\n", *next);
     buffer->write = next;
 }
 
@@ -59,30 +57,30 @@ struct timespec ts1 = {
 };
 
 void writer(void *args) {
-     while (true){
+    while (true){
         nanosleep(&ts1, NULL);
         mtx_lock(&ring_buffer.mutex_lock);
         ring_buffer_push(&ring_buffer, rand() % 10);
         printf("writer\n");
         mtx_unlock(&ring_buffer.mutex_lock);
-     }
+    }
 }
 
 void reader(void *args) {
     while(true) {
-      nanosleep(&ts1, NULL);
-      mtx_lock(&ring_buffer.mutex_lock);
-      uint32_t element;
-      ring_buffer_pop(&ring_buffer, &element);
-      printf("pop: %d\n", element);
-      printf("reader\n");
-      mtx_unlock(&ring_buffer.mutex_lock);
+        nanosleep(&ts1, NULL);
+        mtx_lock(&ring_buffer.mutex_lock);
+        uint32_t element;
+        ring_buffer_pop(&ring_buffer, &element);
+        printf("pop: %d\n", element);
+        printf("reader\n");
+        mtx_unlock(&ring_buffer.mutex_lock);
     }
 }
 
 int main() {
     srand( time(0) );
-    ring_buffer_init(&ring_buffer, 10);
+    ring_buffer_init(&ring_buffer, 5);
     //mtx_init(&ring_buffer.mutex_lock, mtx_plain);
     const int PROD_NUM_THREADS = 2;
     const int CONS_NUM_THREADS = 2;
@@ -90,20 +88,17 @@ int main() {
     thrd_t producer_threads[PROD_NUM_THREADS];
     thrd_t consumer_threads[CONS_NUM_THREADS];
 
-
     for (uint32_t i = 0; i < PROD_NUM_THREADS; i++) {
         if (thrd_create(&producer_threads[i], (thrd_start_t)writer, (void*)(long)i) != thrd_success) {
             printf("Thread error : %u", i);
         }
     }
 
-
     for (uint32_t i = 0; i < CONS_NUM_THREADS; i++) {
         if (thrd_create(&consumer_threads[i], (thrd_start_t)reader, (void*)(long)i) != thrd_success) {
             printf("Thread error : %u", i);
         }
     }
-
 
     int result = 0;
     for (uint32_t i = 0; i < PROD_NUM_THREADS; i++) {
