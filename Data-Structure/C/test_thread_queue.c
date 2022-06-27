@@ -6,15 +6,15 @@
 #define QUEUE_INTERNAL_LIST(T)                                                 \
   typedef struct T##list {                                                     \
     struct T##list *next;                                                      \
-    _Atomic T key;                                                             \
+    T key;                                                             \
   } T##_chunk_t;
 
 #define QUEUE_GENERIC(T)                                                       \
   typedef struct T##queue_generic {                                            \
     T##_chunk_t *first;                                                        \
     T##_chunk_t *tail;                                                         \
-    _Atomic uint32_t capacity;                                                 \
-    _Atomic uint32_t size;                                                     \
+    uint32_t capacity;                                                 \
+    uint32_t size;                                                     \
     T *arr;                                                                    \
     mtx_t mutex_lock;                                                          \
   } T##_queue_t;
