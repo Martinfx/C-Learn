@@ -81,7 +81,8 @@ void reader(void *args) {
 int main() {
     srand( time(0) );
     ring_buffer_init(&ring_buffer, 5);
-    //mtx_init(&ring_buffer.mutex_lock, mtx_plain);
+    mtx_init(&ring_buffer.mutex_lock, mtx_plain);
+
     const int PROD_NUM_THREADS = 2;
     const int CONS_NUM_THREADS = 2;
 
