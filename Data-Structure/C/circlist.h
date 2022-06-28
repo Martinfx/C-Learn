@@ -5,6 +5,36 @@
 #include <assert.h>
 
 typedef struct node {
+    uint32_t value;
+    struct node *next;
+} node_t;
+
+typedef struct clist {
+    node_t *head;
+    node_t *tail;
+} clist_t;
+
+void clist_init(clist_t *clist) {
+    clist->tail = clist->head;
+}
+
+void clist_push_front(clist_t *clist, uint32_t value) {
+    node_t *node = (node_t*)malloc(sizeof(node_t));
+    node->value = value;
+
+    if(clist->head == clist->tail){
+        clist->head = clist->tail = node;
+        node->next = clist->head;
+    } else {
+        clist->tail->next = node;
+        clist->tail = node;
+        node->next = clist->head;
+    }
+}
+
+
+/*
+typedef struct node {
     uint32_t key;
     struct node *next;
 } node_t;
@@ -45,5 +75,4 @@ void print_list(clist_t *list) {
         }   while(curr != list->head);
     }
 }
-
-//void
+*/
