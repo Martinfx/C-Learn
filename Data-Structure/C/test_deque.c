@@ -23,7 +23,16 @@ int main() {
     pop_front(deque);
     pop_back(deque);
     pop_front(deque);
-    //print_forward_deque(deque);
+    pop_back(deque);
+    pop_front(deque);
+    pop_back(deque);
+    pop_front(deque);
+    pop_back(deque);
+    pop_front(deque);
+    pop_back(deque);
+    pop_front(deque);
+
+    print_deque(deque);
 
     return 0;
 }

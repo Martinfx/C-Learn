@@ -86,7 +86,7 @@ int32_t pop_front(deque_t *d) {
     node_t *n = d->head;
     if (d->head == d->tail) {
         d->head = d->tail = NULL;
-        printf("Deque is empty!");
+        printf("Deque is empty!\n");
     } else {
         d->head = n->next;
     }
@@ -99,7 +99,7 @@ int32_t pop_back(deque_t *d) {
     node_t *n = d->tail;
     if (d->head == d->tail) {
         d->head = d->tail = NULL;
-        printf("Deque is empty!");
+        printf("Deque is empty!\n");
     } else {
         d->tail = n->prev;
     }
@@ -107,10 +107,10 @@ int32_t pop_back(deque_t *d) {
     return v;
 }
 
-
+/*
 void print_forward_deque(deque_t *d)
 {
-    deque_t *temp = d;
+    node_t *temp = d->head;
 
     if(temp == NULL)
     {
@@ -126,26 +126,25 @@ void print_forward_deque(deque_t *d)
                "next is %p; "
                "prev is %p; "
                "key is %d\n",
-               (void*)temp,
-               (void*)temp->head,
-               (void*)temp->tail,
+               (void*)temp->prev,
+               (void*)temp->next,
+               (void*)temp->val
                temp->head->val);
 
-        temp = temp->head;
+        temp = temp->next;
     }
-}
+}*/
 
 
 void print_deque(deque_t *queue) {
-  node_t *temp = NULL;
-  temp = queue->tail;
+  node_t *temp = queue->tail;
 
   if ((queue->head == NULL) && (queue->tail == NULL)) {
-    printf("Queue is empty! \n");
+    printf("Deque is empty! \n");
     return;
 
 
-  while (temp->next != NULL) {
+  while (temp != NULL) {
     printf("%d \n", temp->val);
     temp = temp->next;
   }

@@ -42,7 +42,7 @@
   }
 
 #define VEC_FREE(T)                                                            \
-  void vec_free(T##_vector *vec) {                                             \
+  void T##_vec_free(T##_vector *vec) {                                             \
     if (vec->arr) {                                                            \
       free(vec->arr);                                                          \
       vec->arr = NULL;                                                         \
@@ -51,7 +51,10 @@
 
 #define VECTOR_ENTRY(T)                                                        \
   VECTOR_GENERIC(T);                                                           \
-  VEC_INIT(T) VEC_PRINT(T) VEC_PUSH_BACK(T) VEC_FREE(T)
+  VEC_INIT(T);                                                                 \
+  VEC_PRINT(T);                                                                \
+  VEC_PUSH_BACK(T);                                                            \
+  VEC_FREE(T);                                                                 \
 
 typedef struct vec {
   uint32_t *arr;

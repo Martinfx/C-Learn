@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 {
     LIST_ELEMENT(mytype) el1;
     LIST_ELEMENT(mytype) el2;
-    LIST_ELEMENT(mytype) *pEl;
+    LIST_ELEMENT(mytype) *pEl = NULL;
     el1.value.a = 1;
     el1.value.b = 2;
     el2.value.a = 3;
@@ -66,7 +66,7 @@ int main(int argc, char **argv)
         printf("pEl != NULL.\n");
     printf("Done.\n");
 
-    race_thread_code();
+    //race_thread_code();
 
     return 0;
 }

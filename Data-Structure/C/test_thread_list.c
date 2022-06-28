@@ -86,7 +86,7 @@ threadsafe_list_t *threadsafe_list_init() {
 }
 
 threadsafe_node_t* new_node(uint32_t key) {
-    threadsafe_node_t *node = (threadsafe_node_t*)calloc(2, sizeof(threadsafe_node_t));
+    threadsafe_node_t *node = (threadsafe_node_t*)malloc(sizeof(threadsafe_node_t));
     if(!node) {
         printf("Allocation memory failed!\n");
         assert(node);

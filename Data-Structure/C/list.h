@@ -21,21 +21,12 @@ typedef struct list {
 
 list_t *list_init()
 {
-    list_t *list = calloc(2, sizeof (list_t));
+    list_t *list = calloc(2,sizeof (list_t));
     return list;
 }
 
-list_t *create() {
-  list_t *list = (list_t *)calloc(2, sizeof(list_t));
-  if (!list) {
-    debug("Allocation memory failed!\n");
-    exit(0);
-  }
-  return list;
-}
-
 node_t *node() {
-  node_t *node = (node_t *)calloc(2, sizeof(node_t));
+  node_t *node = calloc(2,sizeof(node_t));
   if (!node) {
     debug("Allocation memory failed!\n");
     exit(0);
