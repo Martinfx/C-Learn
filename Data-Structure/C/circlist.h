@@ -32,6 +32,16 @@ void clist_push_front(clist_t *clist, uint32_t value) {
     }
 }
 
+void clist_free(clist_t *clist) {
+    node_t *temp = clist->head;
+    node_t *next = NULL;
+
+    while (temp != NULL) {
+      next = temp->next;
+      free(temp);
+      temp = next;
+    }
+}
 
 /*
 typedef struct node {

@@ -3,8 +3,9 @@
 int main() {
     clist_t clist;
     clist_init(&clist);
-    //clist_push_front(&clist,1);
-    //clist_push_front(&clist,2);
+    clist_push_front(&clist,1);
+    clist_push_front(&clist,2);
+    clist_free(&clist);
 //    clist_push_front(&clist,3);
 //    clist_push_front(&clist,4);
 
