@@ -11,12 +11,16 @@ Fundamentals of C/C++ structure
   * Array
   * Vector
   * Generic Vector
-  * Linked, Doubly, Circual linked list
+  * Linked, Doubly, 
+  * Circual linked list
   * Queue - implemented using a linked list
   * Queue - implemented using a doubly list
   * Generic Queue
   * Stack
   * Binary Tree
+  * Ring buffer
+  * MultiThread ring buffer
+  * MultiThread queue
 
 #### Sort algoritms 
   * Bubble sort
