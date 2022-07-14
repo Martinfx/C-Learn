@@ -12,19 +12,6 @@ void print_array(int arr[], int size) {
 }
 
 void bubblesort(int arr[], int size) {
-  /*bool swap = false;
-  do {
-    swap = false;
-    for (int i = 0; i < size - 1; ++i) {
-      if (arr[i] > arr[i + 1]) {
-        int temp = arr[i];
-        arr[i] = arr[i + 1];
-        arr[i + 1] = temp;
-        swap = true;
-      }
-    }
-  } while (swap);*/
-
   for (int i = 0; i < size; i++) {
     for (int j = 0; j < size - 1; j++) {
       if (arr[j] > arr[j + 1]) {
@@ -51,6 +38,21 @@ void insertsort(int arr[], int size) {
     }
 }
 
+void binary_search(int arr[], int size)  {
+    int left = 0;
+    int right = size - 1;
+    while (left <= right) {
+        int mid = left + ((right - left) / 2);
+        if(arr[mid] == size){
+        }
+        else if (size < arr[mid]){
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+}
+
 int main() {
   int arr[] = {99, 44, 23, 12, 78, 102, 252, 669, 22, 223, -55, -150, 0, 1};
   bubblesort(arr, size_array(arr));
@@ -59,6 +61,11 @@ int main() {
   int arr2[] = {99, 44, 23, 12, 78, 102, 252, 669, 22, 223, -55, -150, 0, 1};
   insertsort(arr2, size_array(arr2));
   print_array(arr2, size_array(arr2));
+
+  int arr3[] = {99, 44, 23, 12, 78, 102, 252, 669, 22, 22, -55, -150, 0, 1};
+  binary_search(arr3, size_array(arr3));
+  print_array(arr3, size_array(arr3));
+
 
   return 0;
 }
