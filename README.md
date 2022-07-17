@@ -6,6 +6,7 @@ Fundamentals of C/C++ structure
   * Pointer to array
   * Pointer to pointer (Multiple Indirection)
   * Pointer to struct
+  * Double pointer
 
 #### Fundamentals of data structure
   * Array
@@ -21,10 +22,13 @@ Fundamentals of C/C++ structure
   * Ring buffer
   * MultiThread ring buffer
   * MultiThread queue
+  * C++ Generic ring buffer  
+  * C++ Generic stack
 
-#### Sort algoritms 
+#### Sort,Search algoritms 
   * Bubble sort
   * Insert sort
+  * Binary search
   
 #### Other
   * MultiProcess
