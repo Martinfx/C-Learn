@@ -16,6 +16,7 @@ Fundamentals of C/C++ structure
   * Circual linked list
   * Queue - implemented using a linked list
   * Queue - implemented using a doubly list
+  * Priority queue a linked list
   * Generic Queue
   * Stack
   * Binary Tree
