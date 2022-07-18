@@ -12,7 +12,6 @@ typedef struct node {
 
 typedef struct priority_queue {
     node_t *head;
-    node_t *tail;
 } priority_queue_t;
 
 void priority_queue_init(priority_queue_t *pq) {
@@ -39,7 +38,7 @@ void priority_queue_push(priority_queue_t *pq, uint32_t item, int32_t priority){
     }
     else {
         node_t *temp = pq->head;
-        while(temp->next !=NULL && temp->next->priority < node->priority)
+        while(temp->next !=NULL && temp->next->priority <= node->priority)
         {
             temp = temp->next;
         }
