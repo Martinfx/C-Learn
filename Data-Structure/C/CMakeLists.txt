@@ -19,6 +19,9 @@ add_executable(${PROJECT_NAME} test_queue.c)
 project(test_deque)
 add_executable(${PROJECT_NAME} test_deque.c)
 
+project(test_priority_queue)
+add_executable(${PROJECT_NAME} test_priority_queue.c)
+
 project(test_vector)
 add_executable(${PROJECT_NAME} test_vector.c)
 

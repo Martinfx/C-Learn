@@ -14,25 +14,19 @@ typedef struct priority_queue {
     node_t *head;
 } priority_queue_t;
 
-void init_priority_queue(priority_queue_t *pq) { pq->head = NULL;}
-void push_priority_queue(priority_queue_t *pq, uint32_t item, int32_t priority){
+void priority_queue_init(priority_queue_t *pq) { pq->head = NULL;}
+uint32_t priority_queue_top(priority_queue_t *pq) { return pq->head->item; }
+void priority_queue_push(priority_queue_t *pq, uint32_t item, int32_t priority){
     node_t *node = (node_t*)malloc(sizeof(node_t));
-    node->item = 0;
+    node->item = item;
     node->next = NULL;
-    node->priority = 0;
+    node->priority = priority;
 
-    if(pq->head == NULL) {
+    if(pq->head == NULL || pq->head->priority > priority ) {
         pq->head = node;
     }
-
-    node_t *temp = pq->head;
-    //node_t *prev = NULL;
-
-    if(pq->head->priority > priority) {
-        temp->next = pq->head;
-        pq->head = temp;
-    }
-   /* else {
+    else {
+        node_t *temp = pq->head;
         while(temp->next !=NULL && temp->next->priority < priority)
         {
             temp = temp->next;
@@ -40,10 +34,10 @@ void push_priority_queue(priority_queue_t *pq, uint32_t item, int32_t priority){
 
         node->next = temp->next;
         temp->next = node;
-    }*/
+    }
 }
 
-void print(priority_queue_t *pq) {
+void priority_queue_print(priority_queue_t *pq) {
     node_t *temp = pq->head;
 
     while (temp != NULL) {
@@ -52,7 +46,7 @@ void print(priority_queue_t *pq) {
     }
 }
 
-void pop_priority_queue(priority_queue_t* pq) {
+void priority_queue_pop(priority_queue_t* pq) {
     if(pq->head != NULL && pq != NULL) {
         node_t *temp = NULL;
         temp = pq->head;
@@ -63,4 +57,3 @@ void pop_priority_queue(priority_queue_t* pq) {
         printf("is empty\n");
     }
 }
-

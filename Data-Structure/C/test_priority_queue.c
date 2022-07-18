@@ -3,14 +3,15 @@
 int main(int argc, char *argv[])
 {
     priority_queue_t pq;
-    init_priority_queue(&pq);
-    push_priority_queue(&pq, 1, 5);
-    push_priority_queue(&pq, 1, 6);
-    push_priority_queue(&pq, 1, 10);
-    print(&pq);
-    pop_priority_queue(&pq);
-    pop_priority_queue(&pq);
-    pop_priority_queue(&pq);
-    pop_priority_queue(&pq);
+    priority_queue_init(&pq);
+    priority_queue_push(&pq, 1, 5);
+    priority_queue_push(&pq, 2, 22);
+    priority_queue_push(&pq, 3, 10);
+    priority_queue_print(&pq);
+    printf("top: %d \n", priority_queue_top(&pq));
+    priority_queue_pop(&pq);
+    priority_queue_pop(&pq);
+    priority_queue_pop(&pq);
+    priority_queue_pop(&pq);
     return 0;
 }
