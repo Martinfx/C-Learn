@@ -56,10 +56,10 @@ void priority_queue_print(priority_queue_t *pq) {
         temp = temp->next;
     }
 
-    /*while (temp != NULL) {
-        printf("%p -> %p, %d, %d\n", (void*)temp, (void*)temp->next,temp->item, temp->priority);
-        temp = temp->next;
-    }*/
+//    while (temp != NULL) {
+//        printf("%p -> %p, %d, %d\n", (void*)temp, (void*)temp->next,temp->item, temp->priority);
+//        temp = temp->next;
+//    }
 }
 
 void priority_queue_pop(priority_queue_t* pq) {
